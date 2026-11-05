@@ -18,7 +18,7 @@ function toast(msg, isErr = false) {
 
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 const RES = [["product", "제품"], ["person", "인물"], ["background", "배경"]];
-const PLAT = { meta: "메타", youtube: "유튜브", instagram: "인스타" };
+const PLAT = { meta: "메타", youtube: "유튜브", instagram: "인스타", keyword: "키워드" };
 const st = { list: [], brands: [], clients: [], res: [], models: [], plans: [], draft: null, bound: false, cmp: {}, tab: "list", pf: "pending", hpage: {}, ppage: 0 };
 // 만든 광고 이력 — 5개씩 쪽 나누기 · 자동화마다 접어 두기 (접힘은 이 브라우저에 기억)
 const PER = 5;

@@ -17,7 +17,7 @@ function toast(msg, isErr = false) {
 }
 
 const st = { list: [], st: "", bound: false, cur: null, pj: null, res: [], clients: [], client: "", pick: {}, models: [], hf: null, busy: {}, idea: "", brief: "" };
-const PLAT = { meta: "메타", youtube: "유튜브", instagram: "인스타", manual: "직접" };
+const PLAT = { meta: "메타", youtube: "유튜브", instagram: "인스타", keyword: "키워드", manual: "직접" };
 const SLOTS = [["product", "제품"], ["person", "인물"], ["background", "배경"]];
 // 생성에 쓸 프롬프트 — 참조형은 변형에 첨부한 사진(refs)을 같이 보낸다
 const PROMPTS = [["ref_text_en", "참조 사진 + 글자 포함", "ref"], ["ref_notext_en", "참조 사진 + 글자 없음", "ref"], ["edit_product_en", "제품 그대로 (편집형)", "prod"], ["plain_text_en", "글로만 + 글자 포함", ""], ["plain_notext_en", "글로만 + 글자 없음", ""]];

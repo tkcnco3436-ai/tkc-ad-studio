@@ -19,7 +19,7 @@ document.addEventListener("click", (e) => {
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const LIB = "https://www.facebook.com/ads/library/";
 const ATC = "https://adstransparency.google.com";
-const PLATFORM = { meta: "메타", youtube: "유튜브", instagram: "인스타", manual: "직접" };
+const PLATFORM = { meta: "메타", youtube: "유튜브", instagram: "인스타", keyword: "키워드", manual: "직접" };
 const IG = "https://www.instagram.com";
 // 조회수 같은 큰 수를 한국식으로 (12,300 → 1.2만)
 const fmtN = (n) => n == null ? "?" : n >= 1e8 ? `${+(n / 1e8).toFixed(1)}억` : n >= 1e4 ? `${+(n / 1e4).toFixed(1)}만` : n.toLocaleString("ko-KR");
@@ -28,6 +28,8 @@ const fmtN = (n) => n == null ? "?" : n >= 1e8 ? `${+(n / 1e8).toFixed(1)}억` :
 const brandUrl = (b) => b.platform === "instagram" ? `${IG}/${b.handle}/reels/`
   : b.platform === "youtube"
   ? `${ATC}/advertiser/${b.id}?region=${b.country}&format=VIDEO`
+  : b.platform === "keyword"
+  ? `${LIB}?active_status=active&ad_type=all&country=${b.country}&media_type=all&q=${encodeURIComponent(b.keyword)}&search_type=keyword_unordered`
   : `${LIB}?active_status=active&ad_type=all&country=${b.country}&media_type=all&search_type=page&view_all_page_id=${b.id}`;
 const adUrl = (ad, b) => ad.platform === "instagram" ? `${IG}/reel/${ad.library_id}/`
   : ad.platform === "youtube"
@@ -113,6 +115,7 @@ async function selectBrand(id) {
   if (!manual) {
     $("#brandLink").href = brandUrl(b);
     $("#brandLink").textContent = b.platform === "instagram" ? `인스타 · @${b.handle} 릴스 ↗`
+      : b.platform === "keyword" ? `메타 키워드 검색 · "${b.keyword}" ↗`
       : `${PLATFORM[b.platform]} · ${yt ? "광고주 ID" : "Page ID"} ${b.id}${b.handle ? " · " + b.handle : ""} ↗`;
   }
   const insta = b.platform === "instagram";
@@ -158,14 +161,20 @@ const MANUAL_HINT = {
   meta: ["Page ID 또는 광고 라이브러리 URL", "337609789607046 또는 …view_all_page_id=…"],
   instagram: ["인스타 아이디 또는 프로필 URL", "hongik.man 또는 instagram.com/hongik.man"],
   youtube: ["광고주 ID 또는 광고 투명성 센터 URL", "AR03465148261151539201 또는 …/advertiser/AR…"],
+  keyword: ["", ""], // 키워드는 ID 직접 입력이 없다
 };
 document.querySelectorAll("#platformSeg .seg__btn").forEach((btn) => btn.addEventListener("click", () => {
   state.platform = btn.dataset.platform;
   document.querySelectorAll("#platformSeg .seg__btn").forEach((b) => { b.classList.toggle("is-on", b === btn); b.setAttribute("aria-checked", b === btn); });
   $("#manualIdLabel").textContent = MANUAL_HINT[state.platform][0];
   $("#manualId").placeholder = MANUAL_HINT[state.platform][1];
-  $("#searchLabel").textContent = state.platform === "instagram" ? "인스타 아이디" : "광고주 이름";
-  $("#searchQuery").placeholder = state.platform === "instagram" ? "예: hongik.man" : "예: 코웨이";
+  const kw = state.platform === "keyword";
+  $("#searchLabel").textContent = state.platform === "instagram" ? "인스타 아이디" : kw ? "검색 키워드 (광고 문구에 들어간 말)" : "광고주 이름";
+  $("#searchQuery").placeholder = state.platform === "instagram" ? "예: hongik.man" : kw ? "예: 정수기 렌탈" : "예: 코웨이";
+  $("#searchForm").querySelector("button[type=submit]").textContent = kw ? "다음" : "찾기";
+  // 키워드는 광고주 ID 가 없으니 "ID 직접 입력" 을 숨기고 검색 칸만 쓴다
+  $("#addModeSeg").hidden = kw;
+  if (kw) { $("#manualForm").hidden = true; document.querySelectorAll(".panel .seg__btn[data-mode]").forEach((b) => { b.classList.toggle("is-on", b.dataset.mode === "search"); b.setAttribute("aria-selected", b.dataset.mode === "search"); }); }
   $("#candidates").hidden = true; $("#confirmForm").hidden = true;
   if ($("#manualForm").hidden) $("#searchForm").hidden = false;
 }));
@@ -183,6 +192,13 @@ $("#searchForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const q = $("#searchQuery").value.trim();
   if (state.platform === "instagram") return resolveInsta(q, e.submitter);
+  if (state.platform === "keyword") {
+    state.picked = { platform: "keyword", keyword: q };
+    $("#confirmText").textContent = `메타 광고 라이브러리에서 "${q}" 문구가 들어간 광고를 광고주 상관없이 모읍니다`;
+    $("#confirmName").value = `키워드_${q}`;
+    $("#searchForm").hidden = true; $("#confirmForm").hidden = false; $("#confirmName").focus();
+    return;
+  }
   const btn = e.submitter; btn.disabled = true; btn.textContent = "찾는 중…";
   $("#candidates").hidden = true;
   try {
@@ -515,7 +531,7 @@ function renderAds() {
         <div class="card__meta">${ad.platform === "instagram" ? `${esc(ad.start_date || "")} 게시`
           : ad.platform === "youtube" ? `마지막 게재 ${esc(ad.last_shown || "?")}`
           : ad.platform === "manual" ? `${ad.source === "upload" ? "업로드" : "링크"} · ${new Date(ad.collected_at).toLocaleDateString("ko-KR")}`
-          : `${esc(ad.start_date || "")} 시작 · ${esc(ad.status || "")}`}</div>
+          : `${ad.keyword && ad.advertiser ? `<b>${esc(ad.advertiser)}</b> · ` : ""}${esc(ad.start_date || "")} 시작 · ${esc(ad.status || "")}`}</div>
         <div class="card__text">${esc(ad.platform === "manual" ? ad.title || ad.original_filename || ad.source_url : ad.body_text || "(본문 없음)")}</div>
       </div>
     </button>`;

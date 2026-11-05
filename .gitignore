@@ -1,0 +1,10 @@
+node_modules/
+.cache/
+tts/.venv/
+tts/models/
+tts/server.log
+*.log
+.DS_Store
+# 설계·개발 문서는 저장소에 올리지 않는다 (로컬에만)
+개발노트.md
+DESIGN.md

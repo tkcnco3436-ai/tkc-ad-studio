@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>광고소재 스튜디오</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/explainer.css">
+</head>
+<body>
+  <!-- 왼쪽 아이콘 줄 — 탐색 · 같이 쓰는 재료(리소스 · 템플릿) · 설정 (Sume 구조 차용) -->
+  <aside class="rail" aria-label="바로가기">
+    <a class="rail__logo" href="#home" aria-label="광고소재 스튜디오 처음 화면">광</a>
+    <a class="rail__btn" href="#home" data-nav="home" title="탐색"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5v-6h-6v6H4z"/></svg><span>탐색</span></a>
+    <a class="rail__btn" href="#res" data-nav="res" title="리소스"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg><span>리소스</span></a>
+    <a class="rail__btn" href="#tpl" data-nav="tpl" title="템플릿"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/></svg><span>템플릿</span></a>
+    <a class="rail__btn" href="#history" data-nav="history" title="제작 기록"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 7v5l3 2"/><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6"/><path d="M4 4v4.6h4.6"/></svg><span>기록</span></a>
+    <span class="rail__fill"></span>
+    <a class="rail__btn" href="#setup" data-nav="setup" title="처음 설정 — 프로그램 · Claude · 힉스필드 · 저장 폴더"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span>설정</span></a>
+  </aside>
+  <header class="top">
+    <a href="#home" class="top__brand">광고소재 스튜디오</a>
+    <nav class="gnb" aria-label="메뉴">
+      <a class="gnb__item" href="#home" data-nav="home">탐색</a>
+      <a class="gnb__item" href="#collect" data-nav="collect">광고 수집</a>
+      <a class="gnb__item" href="#vary" data-nav="vary">이미지 변형</a>
+      <a class="gnb__item" href="#auto" data-nav="auto" title="이미지 광고 제작 자동화">광고 자동화</a>
+      <a class="gnb__item" href="#clone" data-nav="clone">영상 복제</a>
+      <a class="gnb__item" href="#drama/studio" data-nav="drama">릴스 제작하기</a>
+      <a class="gnb__item" href="#history" data-nav="history">제작 기록</a>
+      <span class="gnb__sep" aria-hidden="true"></span>
+      <a class="gnb__item gnb__item--sub" href="#res" data-nav="res">리소스</a>
+      <a class="gnb__item gnb__item--sub" href="#tpl" data-nav="tpl">템플릿</a>
+    </nav>
+    <div class="top__right">
+      <details class="status">
+        <summary class="status__sum" id="toolsSum">도구 확인 중</summary>
+        <div class="status__pop">
+          <div class="status__row"><span class="muted small">저장 폴더</span><span class="status__dir" id="dataDir"></span></div>
+          <div class="top__tools" id="tools"></div>
+          <a class="btn btn--ghost btn--sm" href="#setup">처음 설정 열기</a>
+        </div>
+      </details>
+      <div class="hf-toggle" title="힉스필드로 이미지·영상을 만들 때 쓰는 연결 방식">
+        <span class="hf-toggle__label">힉스필드</span>
+        <div class="seg" id="hfMode" role="radiogroup" aria-label="힉스필드 연결 방식">
+          <button class="seg__btn" type="button" data-hfmode="mcp" role="radio">MCP</button>
+          <button class="seg__btn" type="button" data-hfmode="api" role="radio">API</button>
+        </div>
+        <button class="btn btn--ghost btn--sm btn--icon" id="hfGear" type="button" aria-label="힉스필드 설정" title="힉스필드 설정"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <!-- 길잡이 한 줄: [← 뒤로] 처음 › 메뉴 › 화면 › … (public/nav.js) -->
+  <nav class="crumbs" id="crumbs" aria-label="현재 위치" hidden></nav>
+
+  <!-- 모드(경쟁사 분석 · 영상 만들기 · 카드뉴스 만들기)마다 보이는 탭이 다르다. href 는 app.js 가 모드에 맞춰 채운다 -->
+  <nav class="tabs" id="tabs" role="tablist" aria-label="작업 종류" hidden>
+    <strong class="tabs__mode" id="modeName"></strong>
+    <span class="tabs__sep" aria-hidden="true"></span>
+    <a class="tabs__item" data-tab="competitors" role="tab">경쟁사 찾기 <span class="muted" id="cmpCount"></span></a>
+    <a class="tabs__item" data-tab="brands" role="tab">광고 수집 <span class="muted">메타 · 유튜브 · 인스타</span></a>
+    <a class="tabs__item" data-tab="direct" role="tab"><span data-label-video="링크 · 업로드" data-label-card="캐러셀 수집" data-label-drama="릴스 링크">링크 · 업로드</span> <span class="muted" id="directCount"></span></a>
+    <a class="tabs__item" data-tab="templates" role="tab"><span data-label-video="영상 템플릿" data-label-card="카드뉴스 템플릿" data-label-drama="릴스 템플릿" data-label-ad="참고 광고 템플릿" data-label-tpl="모든 템플릿">템플릿</span> <span class="muted" id="tplCount"></span></a>
+    <a class="tabs__item" data-tab="resources" role="tab"><span data-label-res="리소스" data-label-person="인물">리소스</span> <span class="muted" id="resCount"></span></a>
+    <a class="tabs__item" data-tab="make" role="tab">카드뉴스 만들기</a>
+    <a class="tabs__item" data-tab="made" role="tab">만든 카드뉴스 <span class="muted" id="madeCount"></span></a>
+    <a class="tabs__item" data-tab="vmake" role="tab">영상 만들기</a>
+    <a class="tabs__item" data-tab="collect" role="tab">광고 수집</a>
+    <a class="tabs__item tabs__item--go" data-tab="gocollect" href="#collect" title="모든 메뉴가 같이 쓰는 광고 수집으로">📥 광고 수집 (공용) ↗</a>
+    <a class="tabs__item tabs__item--go2" data-tab="gores" href="#res" title="모든 메뉴가 같이 쓰는 리소스로">🧩 리소스 (공용) ↗</a>
+    <a class="tabs__item" data-tab="studio" role="tab"><span data-label-drama="릴스 만들기" data-label-ad="광고영상 만들기">릴스 만들기</span> <span class="muted" id="studioCount"></span></a>
+    <a class="tabs__item" data-tab="script" role="tab">대본 만들기</a>
+    <a class="tabs__item" data-tab="scripts" role="tab">만든 대본 <span class="muted" id="scriptCount"></span></a>
+  </nav>
+
+  <!-- 영상 수집하기 안의 작은 탭 -->
+  <nav class="subtabs" id="subTabs" role="tablist" aria-label="수집 방법" hidden>
+    <h1 class="subtabs__title">광고 수집</h1>
+    <a class="subtabs__item" data-sub="accounts" role="tab">브랜드에서 모으기</a>
+    <a class="subtabs__item" data-sub="links" role="tab">링크·파일로 넣기 <span class="muted" id="subDirectCount"></span></a>
+  </nav>
+
+  <!-- 처음 화면(탐색) — Sume 탐색 화면 구조: 큰 카드 + 기능 카드 → 갤러리 (public/explore.js · lib/explore.js) -->
+  <section id="homeView" class="page xp" hidden>
+    <a class="xp-ready" id="xpReady" href="#setup" hidden></a>
+    <section class="xp-split">
+      <a class="xp-hero" href="#clone" id="exHero">
+        <span class="xp-hero__media" id="exHeroMedia"></span>
+        <span class="xp-hero__body">
+          <strong>어떤 광고든 내 버전으로</strong>
+          <span>동작·카메라·타이밍은 그대로 두고, 사람·제품·배경만 바꿔요.</span>
+          <span class="btn btn--inverse">영상 복제 시작하기</span>
+        </span>
+      </a>
+      <div class="xp-tools">
+        <a class="xp-tool" href="#collect"><span class="xp-tool__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M4 16v4h16v-4"/></svg></span><strong>광고 수집</strong><span>메타·유튜브·인스타 광고를 모아요</span></a>
+        <a class="xp-tool" href="#tpl"><span class="xp-tool__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/></svg></span><strong>템플릿</strong><span>분석한 광고 구조를 다시 써요</span></a>
+        <a class="xp-tool" href="#clone"><span class="xp-tool__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="6" width="13" height="12"/><path d="M16 10l5-3v10l-5-3"/></svg></span><strong>영상 복제</strong><span>잘 된 광고를 내 소재로 바꿔요</span></a>
+        <a class="xp-tool" href="#drama/studio"><span class="xp-tool__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 9h16M8 5v4M12 5v4M16 5v4"/></svg></span><strong>릴스 제작하기</strong><span>기획부터 편집까지 숏폼 한 편을 만들어요</span></a>
+        <a class="xp-tool" href="#res"><span class="xp-tool__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg></span><strong>리소스</strong><span>인물·배경·제품을 모아 둬요</span></a>
+        <a class="xp-tool" href="#vary"><span class="xp-tool__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="11" height="11"/><rect x="10" y="10" width="11" height="11"/></svg></span><strong>이미지 변형</strong><span>모은 이미지 광고를 내 소재로 바꿔요</span></a>
+      </div>
+    </section>
+    <section class="xp-sec">
+      <div class="xp-sec__head"><h2>최근 모은 광고</h2><span class="muted small" id="exAdCount"></span><a class="xp-more" href="#collect">광고 수집으로 ›</a></div>
+      <div class="xp-gal" id="exAds"></div>
+    </section>
+    <section class="xp-sec">
+      <div class="xp-sec__head"><h2>내가 만든 것</h2><span class="muted small">영상 복제 · 릴스</span></div>
+      <div class="xp-gal" id="exMade"></div>
+    </section>
+  </section>
+
+  <div class="layout" id="layout">
+    <!-- 왼쪽: 내 브랜드 목록 (＋ 추가를 누르면 위에 등록 칸이 열린다) -->
+    <aside class="side">
+      <section class="panel brandadd" id="brandAdd" hidden>
+        <div class="brandadd__head"><h2>브랜드 추가</h2><button class="btn btn--ghost btn--sm" id="brandAddClose" type="button">닫기</button></div>
+        <div class="seg seg--full" id="platformSeg" role="radiogroup" aria-label="플랫폼">
+          <button class="seg__btn is-on" data-platform="meta" role="radio" aria-checked="true">메타</button>
+          <button class="seg__btn" data-platform="youtube" role="radio" aria-checked="false">유튜브</button>
+          <button class="seg__btn" data-platform="instagram" role="radio" aria-checked="false">인스타</button>
+        </div>
+        <div class="seg seg--sm" role="tablist">
+          <button class="seg__btn is-on" data-mode="search" role="tab" aria-selected="true">이름으로 찾기</button>
+          <button class="seg__btn" data-mode="manual" role="tab" aria-selected="false">ID 직접 입력</button>
+        </div>
+
+        <form id="searchForm" class="stack">
+          <label class="field">
+            <span id="searchLabel">광고주 이름</span>
+            <div class="row">
+              <input id="searchQuery" placeholder="예: 코웨이" required>
+              <button class="btn" type="submit">찾기</button>
+            </div>
+          </label>
+          <div id="candidates" class="cands" hidden></div>
+        </form>
+
+        <form id="manualForm" class="stack" hidden>
+          <label class="field"><span>브랜드 이름 (폴더 이름)</span><input id="manualName" placeholder="예: 코웨이" required></label>
+          <label class="field"><span id="manualIdLabel">Page ID 또는 광고 라이브러리 URL</span><input id="manualId" placeholder="337609789607046 또는 …view_all_page_id=…" required></label>
+          <button class="btn btn--primary" type="submit">등록</button>
+        </form>
+
+        <form id="confirmForm" class="stack confirm" hidden>
+          <p class="muted" id="confirmText"></p>
+          <label class="field"><span>브랜드 이름 (폴더 이름)</span><input id="confirmName" required></label>
+          <div class="row">
+            <button class="btn btn--primary" type="submit">등록</button>
+            <button class="btn btn--ghost" type="button" id="confirmCancel">취소</button>
+          </div>
+        </form>
+      </section>
+      <section class="panel panel--list">
+        <div class="brandlist__head"><h2>내 브랜드 <span class="muted" id="brandCount"></span></h2><button class="btn btn--sm" id="brandAddBtn" type="button" aria-expanded="false">＋ 추가</button></div>
+        <input class="brandlist__q" id="brandQ" type="search" placeholder="브랜드 찾기" aria-label="브랜드 찾기">
+        <ul id="brandList" class="brands"></ul>
+      </section>
+    </aside>
+
+    <!-- 오른쪽: 선택한 브랜드 -->
+    <main class="main">
+      <div id="empty" class="empty">
+        <p><strong>왼쪽에서 브랜드를 고르세요</strong></p>
+        <p class="muted">처음이면 [＋ 추가]로 메타·유튜브·인스타 광고주를 등록합니다. 모을 때 ego lite 브라우저가 열려 있어야 합니다.</p>
+      </div>
+
+      <div id="brandView" hidden>
+        <div class="brandhead">
+          <div>
+            <h2 id="brandName"></h2>
+            <a id="brandLink" target="_blank" rel="noopener" class="muted small"></a>
+          </div>
+          <form id="collectForm" class="controls">
+            <details class="opts">
+              <summary class="btn btn--ghost" title="매체 · 상태 · 음성/글자 인식">옵션</summary>
+              <div class="opts__pop">
+            <label class="field field--inline"><span>매체</span>
+              <select id="mediaType"><option value="all">전체</option><option value="video">영상</option><option value="image">이미지</option></select>
+            </label>
+            <label class="field field--inline" id="pickField" hidden><span>고르기</span>
+              <select id="pick"><option value="top">조회수 높은 순</option><option value="recent">최신 순</option></select>
+            </label>
+            <label class="field field--inline"><span>상태</span>
+              <select id="activeStatus"><option value="active">게재 중</option><option value="all">전체</option></select>
+            </label>
+            <label class="check"><input id="whisper" type="checkbox" checked> 음성 인식</label>
+            <label class="check"><input id="ocr" type="checkbox" checked> 글자 인식</label>
+              </div>
+            </details>
+            <label class="field field--inline limit" id="limitField"><span>새 광고</span><input id="limit" type="number" min="1" max="50" value="5"><span>개</span></label>
+            <button class="btn btn--primary" id="collectBtn" type="submit">수집 시작</button>
+          </form>
+        </div>
+
+        <section id="manualTools" class="manual" hidden>
+          <form id="urlForm" class="urlform">
+            <textarea id="analyzeUrl" rows="3" required aria-label="분석할 링크"
+              placeholder="영상·이미지 링크 — 한 줄에 하나씩, 여러 개 넣을 수 있습니다 (최대 30개)&#10;유튜브 · 틱톡 · 인스타 · mp4·jpg 주소 등"></textarea>
+            <div class="urlform__foot">
+              <span class="muted small" id="urlCount">⌘/Ctrl + Enter 로 시작</span>
+              <button class="btn btn--primary" id="urlBtn" type="submit">링크 분석</button>
+            </div>
+          </form>
+          <label class="drop" id="drop">
+            <input id="fileInput" type="file" accept="video/*,image/*" multiple>
+            <strong>파일 올려서 분석</strong>
+            <span class="muted small">여기로 끌어다 놓거나 눌러서 선택 · 여러 개 가능 (최대 30개) · mp4 mov webm jpg png webp</span>
+          </label>
+        </section>
+
+        <section class="log is-idle" id="logBox">
+          <div class="log__head">
+            <span class="log__dot" id="jobDot"></span>
+            <strong id="jobText">대기 중</strong>
+            <button class="btn btn--ghost btn--sm" id="logToggle" type="button">기록 펼치기</button>
+          </div>
+          <ol class="log__list" id="logList" hidden></ol>
+        </section>
+
+        <div class="gridhead">
+          <div class="gridhead__left">
+            <h3 id="adCount"></h3>
+            <button class="btn btn--sm" id="reMissing" type="button" hidden></button>
+          </div>
+          <div class="row">
+          <div class="seg seg--sm" id="sourceFilter" hidden>
+            <button class="seg__btn is-on" data-source="">모든 출처</button>
+            <button class="seg__btn" data-source="url">링크</button>
+            <button class="seg__btn" data-source="upload">업로드</button>
+          </div>
+          <input class="adq" id="adQ" type="search" placeholder="광고 문구 찾기" aria-label="광고 문구 찾기">
+          <div class="seg seg--sm" id="filter">
+            <button class="seg__btn is-on" data-type="">전체 <span data-n=""></span></button>
+            <button class="seg__btn" data-type="vd">영상 <span data-n="vd"></span></button>
+            <button class="seg__btn" data-type="ph">이미지 <span data-n="ph"></span></button>
+          </div>
+          <button class="btn btn--ghost btn--sm" id="logOpen" type="button">작업 기록</button>
+          </div>
+        </div>
+        <div id="grid" class="grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 경쟁사 찾기 -->
+  <section id="cmpView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>경쟁사 찾기</h2>
+        <p class="muted small">제품·서비스를 적으면 Claude가 웹을 검색해 경쟁 브랜드·대리점·비교 플랫폼을 찾습니다. 찾은 곳은 메타·유튜브 광고주로 검색해 바로 수집 브랜드로 등록합니다.</p>
+      </div>
+      <span class="small muted" id="cmpJob"></span>
+    </div>
+    <form id="cmpForm" class="panel cmp-form">
+      <label class="field" style="flex:2"><span>제품·서비스</span><input id="cmpQuery" required placeholder="예: 코웨이 정수기 렌탈"></label>
+      <label class="field" style="flex:2"><span>조건 (선택)</span><input id="cmpNote" placeholder="예: 대리점 위주, 서울·경기, 1인 가구 타깃"></label>
+      <label class="field"><span>개수</span><select id="cmpN"><option>8</option><option selected>12</option><option>20</option></select></label>
+      <button class="btn btn--primary" type="submit" id="cmpBtn">찾기</button>
+    </form>
+    <div class="cmp-history" id="cmpHistory"></div>
+    <div id="cmpResult"></div>
+  </section>
+
+  <!-- 템플릿 -->
+  <section id="tplView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2 id="tplTitle">템플릿</h2>
+        <p class="muted small" id="tplDesc"></p>
+      </div>
+      <span class="small muted" id="tplJob"></span>
+    </div>
+    <div class="seg" id="tplKinds" role="tablist" aria-label="템플릿 종류" hidden></div>
+    <div id="tplGrid" class="grid" data-empty="아직 템플릿이 없습니다. 분석한 영상의 상세 화면에서 '템플릿으로 저장'을 누르세요."></div>
+  </section>
+
+  <!-- 카드뉴스 만들기 -->
+  <section id="makeView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>카드뉴스 만들기</h2>
+        <p class="muted small">템플릿을 고르고 주제와 이미지를 넣으면 같은 구조로 글을 새로 쓰고 PNG(장마다 한 장)로 저장합니다.</p>
+      </div>
+    </div>
+    <h3 class="mk-step"><b>1</b> 템플릿 고르기</h3>
+    <div id="mkTpls" class="grid mk-tpls" data-empty="아직 카드뉴스 템플릿이 없습니다. 광고 수집(공용)에서 캐러셀을 분석한 뒤 상세 화면에서 '카드뉴스 템플릿으로 저장'을 누르세요."></div>
+    <div id="mkBody" hidden>
+      <div class="mk-layout">
+        <form id="cnForm" class="mk-flow">
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>2</b> 어떻게 만들까요?</h3>
+            <div class="mk-modes" id="mkModes">
+              <button type="button" class="mk-mode is-on" data-mode="brand"><strong>브랜드 에셋으로 만들기</strong><span>내 브랜드 소개·제품·말투로 주제를 잡고, 브랜드 색·사진으로 만듭니다</span></button>
+              <button type="button" class="mk-mode" data-mode="research"><strong>자료 모아서 만들기</strong><span>링크를 읽거나 키워드로 웹을 찾아, 모은 사실로 만듭니다</span></button>
+            </div>
+            <div class="field">
+              <span id="mkKitLabel">브랜드 에셋</span>
+              <div class="row">
+                <select id="mkKit" style="flex:1"><option value="">안 씀 — 템플릿 그대로</option></select>
+                <button class="btn btn--sm" type="button" id="mkKitManage">에셋 관리</button>
+              </div>
+              <p class="muted small" id="mkKitInfo" style="margin:0"></p>
+            </div>
+            <div class="field" id="mkLinkField" hidden>
+              <span>자료 링크 (한 줄에 하나 · 최대 15개) — 비워 두면 3단계 키워드로 웹을 찾습니다</span>
+              <div class="row">
+                <select id="mkLinkSet" style="flex:1"><option value="">저장한 링크 묶음 불러오기</option></select>
+                <button class="btn btn--sm" type="button" id="mkLinkSave">묶음으로 저장</button>
+                <button class="btn btn--ghost btn--sm" type="button" id="mkLinkDel" disabled>지우기</button>
+              </div>
+              <textarea id="mkLinks" rows="3" placeholder="https://… 기사·블로그·제품 페이지 (로그인이 필요한 인스타 글은 못 읽습니다)"></textarea>
+            </div>
+          </section>
+
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>3</b> 주제 정하기</h3>
+            <div class="row">
+              <input id="mkKeyword" style="flex:1" placeholder="키워드·방향 (선택) — 예: 신제품 출시, 초보 사장님 고민, AI 상세페이지">
+              <button class="btn" type="button" id="mkSuggest">주제 추천받기</button>
+            </div>
+            <p class="muted small" id="mkSuggestNote" style="margin:0">템플릿 구조에 맞는 주제 5개를 추천합니다. 고르면 아래 칸이 채워지고, 직접 적어도 됩니다.</p>
+            <div class="mk-sugs" id="mkSugs"></div>
+            <label class="field"><span>주제</span><input id="cnTopic" required placeholder="예: 1인 쇼핑몰이 AI로 상세페이지 만드는 법"></label>
+            <label class="field"><span>참고 내용·사실 — 넣은 사실만 수치로 씁니다</span><textarea id="cnDetails" rows="6" placeholder="기사 요약, 핵심 수치, 사례 등 (주제를 추천받아 고르면 모은 사실이 들어갑니다)"></textarea></label>
+          </section>
+
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>4</b> 이미지 넣기</h3>
+            <label class="field"><span id="cnImgLabel">이미지 (선택)</span><input id="cnImages" type="file" accept="image/*" multiple></label>
+            <div class="kit-imgs" id="mkImgPrev"></div>
+            <p class="muted small" id="mkImgNote" style="margin:0"></p>
+          </section>
+
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>5</b> 카드뉴스 만들기</h3>
+            <ul class="cn-flow" id="mkSummary"></ul>
+            <button class="btn btn--primary" type="submit" id="cnBtn">카드뉴스 만들기</button>
+            <p class="muted small" style="margin:0">다 쓰면 <b>만든 카드뉴스</b> 탭으로 넘어가 PNG 로 저장합니다. 사진·색·글은 그 탭에서 고칩니다.</p>
+          </section>
+        </form>
+        <aside class="mk-side">
+          <p class="muted small" style="margin-top:0">고른 템플릿 <span id="mkTplName"></span></p>
+          <div class="mk-prev" id="mkPreview"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 만든 카드뉴스 -->
+  <section id="madeView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>만든 카드뉴스</h2>
+        <p class="muted small">모든 템플릿으로 만든 카드뉴스를 최신순으로 모읍니다. <b>편집</b>으로 장마다 사진·영상·색·글을 고치고, 저장하면 PNG(영상 장은 MP4)를 다시 만듭니다.</p>
+      </div>
+      <label class="field field--inline"><span>템플릿</span><select id="madeFilter"><option value="">전체</option></select></label>
+    </div>
+    <div id="madeList" data-empty="아직 만든 카드뉴스가 없습니다. 카드뉴스 만들기 탭에서 템플릿을 고르고 주제를 넣으세요."></div>
+  </section>
+
+  <!-- 영상 만들기 흐름: 템플릿 → 내 템플릿 → 소재 바꾸기 → 장면 만들기 → 모아 보기 -->
+  <section id="vmakeView" class="page" hidden>
+    <div class="page__head"><div>
+      <h2>영상 만들기</h2>
+      <p class="muted small">잘 되는 광고·릴스의 영상 템플릿을 골라, 인물·배경·제품을 내 소재로 바꾼 같은 영상을 만듭니다. 원본 프레임을 편집해 시작 프레임을 만들고 그 프레임을 움직이므로 원본의 분위기가 유지됩니다.</p>
+    </div></div>
+    <ol class="st-steps" id="vmSteps"></ol>
+    <div id="vmPanel"></div>
+    <div id="vmCastHost" class="vm-host"></div>
+    <div id="vmNext"></div>
+  </section>
+
+  <!-- 드라마 스튜디오 -->
+  <section id="studioView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2 id="stHead">릴스 만들기</h2>
+        <p class="muted small" id="stDesc">숏폼 릴스(숏드라마) 한 편을 단계별로 만듭니다. Claude 가 기획·대본·샷리스트·시트/장면/영상 프롬프트를 쓰고, 이미지·영상은 힉스필드에서 만들어 여기 올립니다. <b>영상을 돌리기 전에 이미지 단계에서 결정을 끝내는 것</b>이 크레딧을 아끼는 길입니다.</p>
+      </div>
+      <button class="btn btn--primary" id="stNew" type="button">+ 새 릴스</button>
+    </div>
+    <div class="st-list" id="stList" data-empty="아직 만든 릴스가 없습니다. [+ 새 릴스]로 시작하세요."></div>
+    <div id="stEditor" hidden>
+      <div class="st-top">
+        <input class="title-input" id="stTitle" aria-label="릴스 제목">
+        <button class="btn btn--ghost btn--sm" id="stDelete" type="button">이 릴스 지우기</button>
+      </div>
+      <ol class="st-steps" id="stSteps"></ol>
+      <div id="stPanel"></div>
+    </div>
+  </section>
+
+  <!-- 드라마 대본 만들기 -->
+  <section id="scriptView" class="page" hidden>
+    <div class="page__head"><div>
+      <h2>대본 만들기</h2>
+      <p class="muted small">드라마 템플릿을 고르고 제품·주제를 넣으면, 같은 이야기 구조(비트·반복 개그·반전)로 장면별 대본을 씁니다.</p>
+    </div></div>
+    <h3 class="mk-step"><b>1</b> 드라마 템플릿 고르기</h3>
+    <div id="scTpls" class="grid mk-tpls" data-empty="아직 드라마 템플릿이 없습니다. 릴스를 수집·분석한 뒤 상세 화면에서 '드라마 템플릿으로 저장'을 누르세요."></div>
+    <div id="scBody" hidden>
+      <div class="mk-layout">
+        <form id="scForm" class="mk-flow">
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>2</b> 무엇을 팔까요?</h3>
+            <label class="field"><span>제품·서비스</span><input id="scProduct" required placeholder="예: 코웨이 안마매트리스 / 정수기 렌탈 / AI 마케팅 강의"></label>
+            <label class="field"><span>주제·전할 메시지 (선택)</span><input id="scTopic" placeholder="예: 잠들기 전 10분이 하루 피로를 바꾼다"></label>
+            <label class="field"><span>참고 사실 (선택) — 넣은 사실만 수치로 씁니다</span><textarea id="scDetails" rows="3" placeholder="가격·혜택·기능 등 확인된 것만"></textarea></label>
+            <div class="field"><span>브랜드 에셋 (선택) — 소개·말투를 반영합니다</span><select id="scKit"><option value="">안 씀</option></select></div>
+          </section>
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>3</b> 인물·길이</h3>
+            <label class="field"><span>등장인물 설정 (선택) — 비우면 틀의 인물 구성을 제품에 맞게 정합니다</span><textarea id="scCast" rows="3" placeholder="예: 30대 맞벌이 부부와 초등학생 딸. 남편은 늘 피곤한 영업사원"></textarea></label>
+            <label class="field"><span>길이</span><select id="scLength"></select></label>
+          </section>
+          <section class="panel mk-sec">
+            <h3 class="mk-step"><b>4</b> 대본 쓰기</h3>
+            <button class="btn btn--primary" type="submit" id="scBtn">대본 쓰기</button>
+            <p class="muted small" style="margin:0">다 쓰면 <b>만든 대본</b> 탭으로 넘어갑니다. 장면별 영상 프롬프트·캡컷 내보내기는 다음 단계에서 붙입니다.</p>
+          </section>
+        </form>
+        <aside class="mk-side">
+          <p class="muted small" style="margin-top:0">고른 템플릿의 이야기 구조</p>
+          <div id="scPreview"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 만든 대본 -->
+  <section id="scriptsView" class="page" hidden>
+    <div class="page__head"><div>
+      <h2>만든 대본</h2>
+      <p class="muted small">드라마 템플릿으로 쓴 대본을 최신순으로 모읍니다. 장면마다 시간·대사·자막·카메라가 있고, 텍스트로 복사해 촬영·편집에 씁니다.</p>
+    </div></div>
+    <div id="scriptList" data-empty="아직 만든 대본이 없습니다. 대본 만들기 탭에서 템플릿을 고르고 제품을 넣으세요."></div>
+  </section>
+
+  <!-- 드라마 템플릿 보기 -->
+  <dialog id="drDialog" class="detail">
+    <div class="detail__bar">
+      <strong id="drName"></strong>
+      <div class="row">
+        <button class="btn btn--primary btn--sm" id="drMake" type="button">이 구조로 드라마 만들기 →</button>
+        <button class="btn btn--sm" id="drJson" type="button">JSON 내보내기</button>
+        <button class="btn btn--sm" id="drDelete" type="button">삭제</button>
+        <button class="btn btn--ghost btn--sm" id="drClose" type="button">닫기</button>
+      </div>
+    </div>
+    <div class="detail__body">
+      <div class="detail__media">
+        <video id="drVideo" controls preload="metadata"></video>
+        <p class="muted small" id="drSummary"></p>
+        <dl class="meta" id="drMeta"></dl>
+      </div>
+      <div class="detail__info">
+        <h4 style="margin-top:0">인물</h4>
+        <div id="drChars" class="dr-chars"></div>
+        <h4>비트 (이야기가 꺾이는 지점)</h4>
+        <div id="drBeats"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 리소스 -->
+  <section id="resView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2 id="resTitle">리소스</h2>
+        <p class="muted small" id="resDesc">제작에 쓸 내 재료 — 인물 · 배경 · 소품·제품 · 목소리. 인물은 사람마다 폴더로 두고 얼굴 · 체형 · 전신 시트를 골라 참고 이미지와 함께 만듭니다. 넣고 뺀 이미지는 모두 기록에 남습니다.</p>
+      </div>
+    </div>
+    <div class="seg" id="resKinds" role="tablist" aria-label="리소스 종류"></div>
+    <!-- 목소리 만들기 (종류: 목소리일 때) — 이 PC 의 Qwen3-TTS 로 만든다 -->
+    <section id="vcPanel" class="panel vc" hidden>
+      <div class="vc__head">
+        <h3>🎙 목소리 만들기</h3>
+        <span id="vcStatus" class="vc__status muted small">확인 중…</span>
+      </div>
+      <div id="vcSetup"></div>
+      <!-- 유튜브에서 목소리 가져오기 (public/voiceyt.js) — 목소리 엔진이 꺼져 있어도 mp3 는 만든다 -->
+      <details class="vc-yt" id="vcYt">
+        <summary>📺 유튜브에서 목소리 가져오기 (mp3)</summary>
+        <form id="vcYtForm" class="stack">
+          <p class="note small" style="margin:0">⚠ 본인 영상이거나 목소리 주인에게 <b>허락받은 경우</b>에만 쓰세요. 복제에는 한 사람 목소리만 나오는 조용한 5~15초 구간이 가장 좋습니다.</p>
+          <label class="field"><span>유튜브 링크</span><input id="vcYtUrl" required placeholder="https://youtu.be/…  또는  https://www.youtube.com/watch?v=…"></label>
+          <div class="row">
+            <label class="field" style="flex:1"><span>시작 (비우면 처음)</span><input id="vcYtStart" placeholder="0:12"></label>
+            <label class="field" style="flex:1"><span>끝 (비우면 10분까지)</span><input id="vcYtEnd" placeholder="0:27"></label>
+          </div>
+          <label class="check small"><input type="checkbox" id="vcYtDenoise" checked> 잡음 줄이기 (말소리 위주로 다듬기 — 배경음악은 다 지우지 못합니다)</label>
+          <label class="check small"><input type="checkbox" id="vcYtConsent"> 본인 목소리이거나 허락받은 목소리입니다</label>
+          <button class="btn btn--primary" type="submit">mp3 추출</button>
+        </form>
+        <div id="vcYtOut"></div>
+      </details>
+      <div id="vcBody" class="vc__body" hidden>
+        <div class="seg" id="vcModes" role="tablist">
+          <button class="seg__btn is-on" type="button" data-vcmode="preset">기본 목소리</button>
+          <button class="seg__btn" type="button" data-vcmode="clone">녹음으로 복제</button>
+        </div>
+        <div id="vcPreset" class="stack" style="margin-top:0">
+          <div id="vcSpeakers" class="vc__presets"></div>
+          <label class="field"><span>말투 (선택 — 자유롭게 적어도 됩니다)</span><input id="vcInstruct" placeholder="예: 차분하고 신뢰감 있게"></label>
+          <div id="vcStyles" class="vc__styles"></div>
+        </div>
+        <div id="vcCloneBox" class="stack" style="margin-top:0" hidden>
+          <div id="vcProfiles" class="vc__presets"></div>
+          <details id="vcNew" class="vc__new">
+            <summary>＋ 새 목소리 복제하기</summary>
+            <form id="vcClone" class="vc__clone">
+              <p class="note small" style="margin:0">⚠ 본인 목소리이거나 <b>허락받은 목소리</b>만 복제하세요. 조용한 곳에서 한 사람만, 3~15초. 15초가 넘으면 그 안쪽 마지막 쉼에서 자르고, 받아 적은 말도 거기까지만 남깁니다.</p>
+              <label class="field"><span>목소리 이름</span><input id="vcName" required placeholder="예: 준호 내레이션"></label>
+              <label class="field vc__drop" id="vcDrop"><span>녹음 파일 (wav·mp3·m4a — 끌어다 놓아도 됩니다)</span><input id="vcFile" type="file" accept=".wav,.mp3,.m4a,.aac,.ogg,.webm,audio/*" required></label>
+              <label class="field"><span>녹음에서 한 말 (그대로 받아 적기 — 정확할수록 닮습니다)</span><textarea id="vcRefText" rows="2" placeholder="예: 안녕하세요, 저는 이준호입니다. 오늘은 새 제품을 소개해 드릴게요."></textarea></label>
+              <label class="check small"><input id="vcConsent" type="checkbox"> 본인 목소리이거나 목소리 주인에게 허락을 받았습니다</label>
+              <button class="btn btn--primary" type="submit">목소리 복제하기</button>
+            </form>
+          </details>
+        </div>
+        <div class="vc__try">
+          <label class="field"><span>읽힐 문장</span><textarea id="vcText" rows="2">안녕하세요, 테스트입니다.</textarea></label>
+          <div class="row">
+            <select id="vcLang" aria-label="언어"><option value="korean">한국어</option><option value="english">영어</option><option value="japanese">일본어</option><option value="chinese">중국어</option><option value="auto">자동</option></select>
+            <span id="vcPick" class="muted small"></span>
+            <button class="btn btn--primary" id="vcSpeak" type="button" disabled>▶ 만들어 듣기</button>
+          </div>
+          <div id="vcOut"></div>
+        </div>
+      </div>
+    </section>
+    <div id="resListWrap">
+      <div class="res-bar">
+        <button class="btn btn--primary btn--sm" type="button" id="resNew">＋ 새 인물</button>
+        <input id="resSearch" type="search" placeholder="이름·태그로 찾기" aria-label="리소스 찾기">
+      </div>
+      <div id="resGrid" class="res-grid"></div>
+    </div>
+    <section id="resDetail" class="panel res-detail" hidden></section>
+    <section id="resWizard" class="panel wz" hidden></section>
+  </section>
+
+  <!-- 템플릿 편집 -->
+  <dialog id="tplDialog" class="detail">
+    <div class="detail__bar">
+      <input id="tName" class="title-input" aria-label="템플릿 이름">
+      <div class="row">
+        <button class="btn btn--sm" id="tMy" type="button" title="이 템플릿을 복제해 인물·배경·제품을 내 소재로 바꿀 수 있는 소재 시트를 만든다">내 템플릿으로 만들기</button>
+        <button class="btn btn--primary btn--sm" id="tSave" type="button">저장</button>
+        <button class="btn btn--sm" id="tJson" type="button" title="다른 채팅에 붙여 쓸 수 있는 구조 JSON">JSON 내보내기</button>
+        <button class="btn btn--sm" id="tDelete" type="button">삭제</button>
+        <button class="btn btn--ghost btn--sm" id="tClose" type="button">닫기</button>
+      </div>
+    </div>
+    <div class="detail__body detail__body--tpl">
+      <div class="detail__media">
+        <video id="tVideo" controls preload="metadata"></video>
+        <p class="muted small" style="margin-top:-4px">원본 영상 · 컷 프레임을 누르면 그 장면으로 갑니다</p>
+        <figure id="tCoverWrap"><img id="tCover" alt="썸네일"><figcaption>원본 썸네일</figcaption></figure>
+        <dl class="meta" id="tMeta"></dl>
+        <label class="field"><span>요약</span><textarea id="tSummary" rows="4"></textarea></label>
+        <div class="row">
+          <label class="field" style="flex:1"><span>훅 유형</span><input id="tHook"></label>
+          <label class="field" style="flex:1"><span>톤</span><input id="tTone"></label>
+        </div>
+        <label class="field"><span>카피 공식 (한 줄에 하나)</span><textarea id="tCopy" rows="4"></textarea></label>
+        <label class="field"><span>음악</span><input id="tMusic" placeholder="분위기 / 템포"></label>
+        <label class="field"><span>메모</span><textarea id="tNotes" rows="2"></textarea></label>
+      </div>
+      <div class="detail__info">
+        <section class="cast" id="tCast" hidden>
+          <div class="cast__head">
+            <div><h4 style="margin:0">내 소재 시트</h4>
+              <p class="muted small" style="margin:0">템플릿 분석에서 뽑은 바꿀 수 있는 소재입니다. 소재마다 내 이미지(캐릭터 시트·배경·제품 사진)나 설정을 등록하면, 그 소재로 장면별 프롬프트를 다시 씁니다.</p></div>
+            <button class="btn btn--ghost btn--sm" id="tCastRe" type="button">소재 다시 뽑기</button>
+          </div>
+          <div class="cast__grid" id="tCastGrid"></div>
+          <div class="cast__make">
+            <input id="tMyTopic" placeholder="새 제품·주제 (선택) — 예: 물걸레 로봇청소기, 화면 글자·대사도 이 주제로">
+            <button class="btn btn--primary" id="tMyPrompts" type="button">내 소재로 장면 프롬프트 만들기</button>
+          </div>
+          <div id="tMyOut"></div>
+        </section>
+        <h4>구조</h4>
+        <div class="sections" id="tSections"></div>
+        <h4>컷 (칸을 눌러 고칩니다)</h4>
+        <div class="table-wrap"><table class="shots shots--edit" id="tSlots"></table></div>
+        <h4>컨택트시트</h4>
+        <img id="tSheet" alt="컷 모음" style="width:100%;border-radius:4px">
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 카드뉴스 템플릿 -->
+  <dialog id="cnDialog" class="detail">
+    <div class="detail__bar">
+      <strong id="cnName"></strong>
+      <div class="row">
+        <button class="btn btn--sm" id="cnJson" type="button" title="다른 채팅에 붙여 쓸 수 있는 구조 JSON">JSON 내보내기</button>
+        <button class="btn btn--sm" id="cnDup" type="button" title="원본은 그대로 두고 사본을 만들어 편집">복제해서 편집</button>
+        <button class="btn btn--sm" id="cnEdit" type="button">편집</button>
+        <button class="btn btn--sm" id="cnDelete" type="button">삭제</button>
+        <button class="btn btn--ghost btn--sm" id="cnClose" type="button">닫기</button>
+      </div>
+    </div>
+    <div class="detail__body cn-body">
+      <div class="cn-side">
+        <h4 style="margin-top:0">원본</h4>
+        <div class="cn-strip" id="cnRefs"></div>
+        <p class="muted small" id="cnSummary"></p>
+        <h4>디자인</h4>
+        <div class="swatches" id="cnDesign"></div>
+        <h4>흐름</h4>
+        <ol class="cn-flow" id="cnFlow"></ol>
+        <h4>문장 공식</h4>
+        <ul class="cn-flow" id="cnCopy"></ul>
+      </div>
+      <div class="cn-main">
+        <div class="row cn-main__head">
+          <h4 style="margin:0">템플릿 <span class="muted small" id="cnEdited"></span></h4>
+          <button class="btn btn--primary btn--sm" id="cnMake" type="button">이 템플릿으로 카드뉴스 만들기 →</button>
+        </div>
+        <p class="muted small">편집한 내용이 반영된 모습입니다. 글은 예시 글이고, 만들 때 주제에 맞게 새로 씁니다.</p>
+        <div class="cn-grid" id="cnPreview"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 카드뉴스 템플릿 편집기 -->
+  <dialog id="ceDialog" class="detail ce">
+    <div class="detail__bar">
+      <input class="title-input ce-name" id="ceName" aria-label="템플릿 이름">
+      <div class="row">
+        <span class="muted small" id="ceDirty"></span>
+        <button class="btn btn--primary btn--sm" id="ceSave" type="button">저장</button>
+        <button class="btn btn--ghost btn--sm" id="ceClose" type="button">닫기</button>
+      </div>
+    </div>
+    <div class="ce-body">
+      <div class="ce-panel">
+        <nav class="dtabs" id="ceTabs" role="tablist">
+          <button class="dtabs__item is-on" data-tab="design" role="tab">디자인</button>
+          <button class="dtabs__item" data-tab="structure" role="tab">구조</button>
+          <button class="dtabs__item" data-tab="slide" role="tab">장 편집</button>
+          <button class="dtabs__item" data-tab="ai" role="tab">AI로 고치기</button>
+        </nav>
+        <div id="cePanel"></div>
+      </div>
+      <div class="ce-preview">
+        <div class="ce-big" id="ceBig"></div>
+        <div class="cn-strip ce-strip" id="ceStrip"></div>
+        <p class="muted small">글은 템플릿의 예시 글입니다. 카드뉴스를 만들 때 Claude 가 이 구성·글자 수·말투를 따라 새로 씁니다.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 브랜드 에셋 관리 -->
+  <dialog id="kitDialog" class="detail kit-dialog">
+    <div class="detail__bar">
+      <strong>브랜드 에셋</strong>
+      <div class="row">
+        <button class="btn btn--ghost btn--sm" id="kitClose" type="button">닫기</button>
+      </div>
+    </div>
+    <div class="kit-body">
+      <div class="kit-list">
+        <ul id="kitList"></ul>
+        <button class="btn btn--sm" id="kitNew" type="button">+ 새 에셋</button>
+      </div>
+      <form id="kitForm" class="stack" style="margin-top:0" hidden>
+        <label class="field"><span>이름</span><input id="kitName" required placeholder="예: 태경 공식 계정"></label>
+        <div class="ex__row"><input id="kitUrl" placeholder="홈페이지·스토어 주소 (https://…) — Claude 가 읽고 아래 칸을 채웁니다" style="flex:1 1 240px"><button class="btn btn--sm" type="button" id="kitFill">🪄 링크로 채우기</button></div>
+        <div id="kitProfile" class="kit-profile"></div>
+        <label class="field"><span>그 밖의 소개 (자유롭게) — 카드뉴스·포스터·인물 라디오 기획 때 Claude 가 지킵니다</span>
+          <textarea id="kitAbout" rows="7" placeholder="예: 20~30대 1인 쇼핑몰 사장님 대상 AI 마케팅 교육 브랜드. 말투는 친근한 해요체. '무조건', '100%' 같은 과장 표현 금지. 대표 상품: ○○ 강의"></textarea></label>
+        <div class="field"><span>디자인 (색·글자)</span><div class="swatches" id="kitDesign"></div>
+          <p class="muted small" style="margin:0">디자인은 카드뉴스 템플릿 편집기 → 디자인 탭에서 <b>지금 디자인을 키트로 저장</b>을 같은 이름으로 누르면 들어갑니다.</p></div>
+        <div class="field"><span>사진 — 카드뉴스를 만들 때 사진을 안 올리면 이 사진을 순서대로 씁니다</span>
+          <div class="kit-imgs" id="kitImgs"></div>
+          <input type="file" id="kitFiles" accept="image/*" multiple></div>
+        <div class="row">
+          <button class="btn btn--primary" type="submit">저장</button>
+          <button class="btn btn--ghost" type="button" id="kitDelete">이 에셋 지우기</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 힉스필드 설정 -->
+  <dialog id="hfDialog" class="detail kit-dialog">
+    <div class="detail__bar"><strong>힉스필드 연결</strong>
+      <div class="row"><button class="btn btn--ghost btn--sm" id="hfClose" type="button">닫기</button></div></div>
+    <form id="hfForm" class="stack" style="padding:var(--s5);margin-top:0">
+      <div class="field"><span>연결 방식</span>
+        <div class="seg" id="hfMode2"><button class="seg__btn" type="button" data-hfmode="mcp">MCP — 이 PC 의 Claude 에 연결된 힉스필드 계정</button><button class="seg__btn" type="button" data-hfmode="api">API — 힉스필드 API 키</button></div></div>
+      <p class="muted small" style="margin:0" id="hfInfo"></p>
+      <div class="row" style="flex-wrap:wrap">
+        <label class="field" style="flex:1"><span>API 키 ID</span><input id="hfKeyId" autocomplete="off" placeholder="console.higgsfield.ai 에서 발급"></label>
+        <label class="field" style="flex:1"><span>API 시크릿 (저장 후 다시 보이지 않습니다)</span><input id="hfKeySecret" type="password" autocomplete="off"></label>
+      </div>
+      <div class="row" style="flex-wrap:wrap">
+        <label class="field"><span>이미지 해상도</span><select id="hfImageRes"><option>1k</option><option>2k</option><option>4k</option></select></label>
+        <label class="field"><span>영상 해상도</span><select id="hfVideoRes"><option value="480p">480p (초안 — 싸게 확인)</option><option>720p</option><option>1080p</option></select></label>
+      </div>
+      <label class="check"><input type="checkbox" id="hfUnlim"> 무료·무제한 생성분이 있으면 그것부터 쓰기 (MCP)</label>
+      <div class="row"><button class="btn btn--primary" type="submit">저장</button><button class="btn btn--ghost" type="button" id="hfClearKey">API 키 지우기</button></div>
+      <p class="muted small" style="margin:0">키는 이 PC 의 데이터 폴더(_settings.json)에만 저장되고 화면·로그에 나오지 않습니다. 생성 버튼을 누를 때마다 크레딧 사용을 확인합니다.</p>
+    </form>
+  </dialog>
+
+  <!-- 제품 합성 -->
+  <dialog id="compDialog" class="detail">
+    <div class="detail__bar"><strong>제품 합성 — 실제 제품 사진을 배경에 얹기</strong>
+      <div class="row"><button class="btn btn--primary btn--sm" id="compSave" type="button">합성 저장</button><button class="btn btn--ghost btn--sm" id="compClose" type="button">닫기</button></div></div>
+    <div class="detail__body comp-body">
+      <div class="comp-stage" id="compStage"><img id="compBg" alt="배경"><div class="comp-shadow" id="compShadow"></div><div class="comp-prod" id="compProd"><canvas id="compProdCv"></canvas><i class="txed__handle"></i></div></div>
+      <div class="stack" style="margin-top:0">
+        <label class="field"><span>제품 이미지</span><select id="compSrc"></select></label>
+        <label class="field"><span>다른 제품 이미지 올리기 (배경 투명 PNG 가 가장 좋습니다)</span><input type="file" accept="image/*" id="compUp"></label>
+        <label class="check"><input type="checkbox" id="compWhite"> 흰 배경 지우기</label>
+        <label class="field"><span>지우는 정도</span><input type="range" id="compThr" min="200" max="254" value="238"></label>
+        <label class="check"><input type="checkbox" id="compShadowOn" checked> 바닥 그림자</label>
+        <label class="check"><input type="checkbox" id="compFlip"> 좌우반전</label>
+        <p class="muted small" style="margin:0">제품 상자를 끌어 옮기고 오른쪽 아래 모서리로 크기를 바꿉니다. 처음 자리는 프롬프트가 비워 둔 제품 자리입니다.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 진행 표시 (popover: 창 위에도 보인다) -->
+  <div id="busy" class="busy" popover="manual" role="status" aria-live="polite">
+    <div class="busy__bar"><i></i></div>
+    <div class="busy__box">
+      <span class="busy__spin" aria-hidden="true"></span>
+      <div class="busy__txt"><strong id="busyText">처리 중…</strong><span id="busyLog"></span></div>
+      <span class="busy__time" id="busyTime"></span>
+    </div>
+  </div>
+
+  <!-- 템플릿 JSON 내보내기 -->
+  <dialog id="jsonDialog" class="detail json-dialog">
+    <div class="detail__bar">
+      <strong>템플릿 JSON <span class="muted small" id="jsonInfo"></span></strong>
+      <div class="row">
+        <button class="btn btn--primary btn--sm" id="jsonCopy" type="button">복사</button>
+        <button class="btn btn--sm" id="jsonDown" type="button">파일로 받기</button>
+        <button class="btn btn--ghost btn--sm" id="jsonClose" type="button">닫기</button>
+      </div>
+    </div>
+    <div class="json-body">
+      <p class="muted small">다른 채팅(Claude·ChatGPT 등)에 그대로 붙여 넣고 "이 템플릿으로 ○○ 주제 만들어줘"라고 하면 됩니다. 사용법(how_to_use)과 블록 설명이 JSON 안에 들어 있습니다. 원본 사진·영상 파일은 빠집니다.</p>
+      <label class="check"><input type="checkbox" id="jsonExamples" checked> 예시 글 포함 (빼면 구조만 남습니다)</label>
+      <textarea id="jsonText" readonly spellcheck="false"></textarea>
+    </div>
+  </dialog>
+
+  <!-- 광고 상세 -->
+  <dialog id="detail" class="detail">
+    <div class="detail__bar">
+      <strong id="dTitle"></strong>
+      <div class="row">
+        <button class="btn btn--sm" id="dTpl" type="button" title="Claude가 컷마다 역할·구도·자막 형식을 붙여 템플릿으로 저장">템플릿으로 저장</button>
+        <button class="btn btn--primary btn--sm" id="dAsset" type="button" title="이미지 프롬프트가 없으면 먼저 분석하고, 이미지 변형 메뉴에 에셋으로 올립니다">이미지 변형 에셋으로 저장</button>
+        <button class="btn btn--sm" id="dRe" type="button" title="저장된 파일로 분석만 새로 돌린다">다시 분석</button>
+        <button class="btn btn--ghost btn--sm" id="dClose" type="button" aria-label="닫기">닫기</button>
+      </div>
+    </div>
+    <div class="detail__body">
+      <div class="detail__media" id="dMedia"></div>
+      <div class="detail__info">
+        <nav class="dtabs" id="dTabs" role="tablist">
+          <button class="dtabs__item is-on" data-pane="info" role="tab">정보</button>
+          <button class="dtabs__item" data-pane="analysis" role="tab">분석</button>
+          <button class="dtabs__item" data-pane="prompts" role="tab">프롬프트 <span class="muted" id="dPromptCount"></span></button>
+          <button class="dtabs__item" data-pane="variants" role="tab" id="dVariantTab">변형 <span class="muted" id="dVariantCount"></span></button>
+        </nav>
+        <section class="dpane" data-pane="info">
+          <dl class="meta" id="dMeta"></dl>
+          <h4>본문</h4>
+          <div class="body-text" id="dText"></div>
+        </section>
+        <section class="dpane" data-pane="analysis" hidden>
+          <div id="dAnalysis"></div>
+        </section>
+        <section class="dpane" data-pane="prompts" hidden>
+          <form id="promptForm" class="short-form">
+            <input id="pTopic" placeholder="제품·주제 (비우면 원본 그대로, 브랜드는 [제품] 빈칸)" aria-label="제품·주제">
+            <button class="btn btn--primary btn--sm" type="submit" id="pBtn">프롬프트 만들기</button>
+          </form>
+          <p class="muted small">영상은 컷마다 영상 프롬프트와 첫 프레임 이미지 프롬프트, 이미지는 장마다 이미지 프롬프트를 만듭니다. 영상 프롬프트에는 글자를 넣지 않고 화면 글자·대사로 따로 둡니다. 위 [이미지 변형 에셋으로 저장]을 누르면 그 이미지가 <a href="#vary">이미지 변형</a> 메뉴에 에셋으로 올라갑니다 (프롬프트가 없으면 먼저 만듭니다).</p>
+          <div id="dPrompts"></div>
+        </section>
+        <section class="dpane" data-pane="variants" hidden>
+          <p class="muted small">이미지 프롬프트를 바탕으로 제품·인물·배경·글자를 바꾼 프롬프트를 만듭니다.</p>
+          <div id="dVariants"></div>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 3D 설명 영상 (public/explainer.js) -->
+  <section id="explainView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>3D 설명 영상 만들기</h2>
+        <p class="muted">주제 → 장면 대본(Claude) → 음성(파일 또는 임시 음성) → 3D 장면 + 단어 자막 미리보기 → mp4. 화풍은 템플릿으로 고르고 템플릿마다 색·분위기·주인공을 바꿉니다.</p>
+      </div>
+    </div>
+    <nav class="subtabs ex-tabs" id="exTabs" role="tablist" aria-label="3D 설명 영상 화면">
+      <a class="subtabs__item" data-v="make" href="#explain" role="tab">만들기</a>
+      <a class="subtabs__item" data-v="list" href="#explain/list" role="tab">만든 콘텐츠 <span class="muted" id="exCount"></span></a>
+    </nav>
+    <div id="exListView" hidden>
+      <div class="cl-tools"><input id="exSearch" type="search" placeholder="제목·주제로 찾기" aria-label="만든 콘텐츠 찾기"></div>
+      <div class="cl-grid" id="exGrid"></div>
+    </div>
+    <div class="ex" id="exMakeView">
+      <div class="ex__side">
+        <section class="panel stack">
+          <h3>새로 만들기</h3>
+          <form id="exNew" class="ex__row">
+            <input id="exTopic" placeholder="주제 (예: 바닷속 인터넷 케이블)" aria-label="주제" required>
+            <select id="exTpl" aria-label="템플릿"></select>
+            <select id="exSec" aria-label="길이"><option value="30">30초</option><option value="45">45초</option><option value="60" selected>60초</option><option value="90">90초</option></select>
+            <button class="btn btn--primary" type="submit">대본 쓰기</button>
+          </form>
+          <div class="ex__row">
+            <select id="exPick" aria-label="만든 영상"></select>
+            <button class="btn btn--ghost btn--sm" type="button" id="exDel">지우기</button>
+          </div>
+          <p class="ex__status" id="exStatus" role="status" hidden></p>
+        </section>
+        <div id="exEditor" class="ex__side" hidden>
+          <section class="panel stack">
+            <h3>템플릿 · 스타일</h3>
+            <select id="exTplCur" aria-label="이 영상의 템플릿"></select>
+            <div class="ex-fields" id="exStyle"></div>
+            <div class="ex__row">
+              <button class="btn btn--ghost btn--sm" type="button" id="exStyleReset">기본값으로</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="exStyleSave">내 템플릿으로 저장</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="exStyleDel">내 템플릿 지우기</button>
+            </div>
+            <p class="muted small">"내 템플릿으로 저장"은 지금 스타일과 주인공을 함께 저장합니다. 새로 만들 때 템플릿 칸에서 고릅니다.</p>
+          </section>
+          <section class="panel stack" id="exCharPanel" hidden>
+            <h3>메인 캐릭터 만들기</h3>
+            <div class="ex-char">
+              <canvas class="ex-char__view" id="exCharCanvas" width="280" height="280"></canvas>
+              <div class="ex-fields ex-fields--char" id="exCharFields"></div>
+            </div>
+            <div class="ex__row">
+              <button class="btn btn--ghost btn--sm" type="button" id="exCharRandom">무작위</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="exCharReset">기본 캐릭터</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="exCharSave">캐릭터 저장</button>
+            </div>
+            <div class="ex__row">
+              <select id="exCharPick" aria-label="저장한 캐릭터"></select>
+              <button class="btn btn--ghost btn--sm" type="button" id="exCharDel">지우기</button>
+            </div>
+          </section>
+          <section class="panel stack">
+            <div class="ex__row">
+              <h3 style="flex:1">장면</h3>
+              <button class="btn btn--ghost btn--sm" type="button" id="exRescript">대본 다시 쓰기</button>
+            </div>
+            <label class="field"><span>영상 제목</span><input id="exTitle"></label>
+            <ol class="ex-scenes" id="exScenes"></ol>
+            <button class="btn btn--ghost btn--sm" type="button" id="exAdd">+ 장면 추가</button>
+          </section>
+          <section class="panel stack">
+            <h3>음성</h3>
+            <p class="muted small" id="exAudioInfo"></p>
+            <div class="ex__row">
+              <label class="btn btn--ghost btn--sm">음성 파일 올리기<input type="file" id="exAudioFile" accept="audio/*,video/*" hidden></label>
+              <span class="muted small">또는</span>
+              <select id="exVoice" aria-label="목소리" style="flex:0 1 220px"></select>
+              <button class="btn btn--ghost btn--sm" type="button" id="exSay">이 목소리로 음성 만들기</button>
+            </div>
+            <p class="muted small">올리면 whisper 로 단어 시각을 뽑아 자막·장면 경계를 맞춥니다. 대본을 고친 뒤에는 음성을 다시 올리세요.</p>
+          </section>
+        </div>
+      </div>
+      <div class="ex__player" id="exPlayer" hidden>
+        <canvas class="ex__canvas" id="exCanvas"></canvas>
+        <audio id="exAudio" preload="auto"></audio>
+        <div class="ex__controls">
+          <button class="btn btn--ghost btn--sm" type="button" id="exPlay" aria-label="재생">▶</button>
+          <input type="range" id="exSeek" min="0" max="1000" value="0" aria-label="재생 위치">
+          <span class="ex__time" id="exTime">0:00 / 0:00</span>
+        </div>
+        <div class="ex__row">
+          <select id="exQuality" aria-label="mp4 화질" style="flex:0 1 190px"><option value="small">용량 작게 · 720p</option><option value="std" selected>표준 · 720p</option><option value="high">고화질 · 1080p</option></select>
+          <button class="btn btn--primary" type="button" id="exRecord">mp4 로 굽기</button>
+          <span id="exResult"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 영상 복제하기 (public/clone.js) -->
+  <!-- 리소스 (이 앱용) — 고객사 폴더별로 인물·배경·제품·목소리를 올려 두고, AI 는 "시트로 만들기" 하나만 쓴다
+       (public/library.js · 서버 /api/resources · /api/clients). 다른 메뉴의 "리소스에서 고르기"는 같은 리소스를 쓴다 -->
+  <section id="libView" class="page lib" hidden>
+    <div class="page__head">
+      <div>
+        <h2>리소스</h2>
+        <p class="muted">고객사 폴더를 만들고 인물·배경·제품·목소리와 고객사 에셋·참고 문서를 올려 두고, 페르소나에 고객사의 사업체 소개·소구점·혜택·말투를 정해 둡니다.</p>
+      </div>
+      <button class="btn btn--primary" id="libUpBtn" type="button">＋ 올리기</button>
+    </div>
+    <div class="lib-layout">
+      <aside class="lib-side">
+        <div class="lib-side__head"><h3>고객사 폴더</h3><button class="btn btn--ghost btn--sm" id="libNewClient" type="button">＋ 폴더</button></div>
+        <ul class="lib-folders" id="libFolders"></ul>
+      </aside>
+      <div class="lib-main">
+        <div class="lib-bar">
+          <div class="seg seg--sm" id="libKinds"></div>
+          <input id="libQ" type="search" placeholder="이름·태그 찾기" aria-label="리소스 찾기">
+          <button class="btn btn--ghost btn--sm" id="libSelBtn" type="button">여러 개 고르기</button>
+        </div>
+        <!-- 여러 개 고르기 — 카드를 눌러 고르고 한 번에 지우거나 다른 고객사 폴더로 옮긴다 -->
+        <div class="lib-selbar" id="libSelBar" hidden>
+          <strong id="libSelN">0개 고름</strong>
+          <button class="btn btn--ghost btn--sm" id="libSelAll" type="button">보이는 것 모두</button>
+          <span class="lib-wiz__sp"></span>
+          <select id="libSelMove" aria-label="고른 것을 옮길 고객사 폴더"></select>
+          <button class="btn btn--sm" id="libSelMoveGo" type="button">폴더 옮기기</button>
+          <button class="btn btn--sm lib-selbar__del" id="libSelDel" type="button">지우기</button>
+          <button class="btn btn--ghost btn--sm" id="libSelX" type="button">그만 고르기</button>
+        </div>
+        <section class="lib-up" id="libUp" hidden>
+          <!-- 1) 어디에 올릴지 먼저 고른다: 고객사 리소스(폴더를 고르거나 새로 만듦) / 일반 리소스(고객사 없이 공용) -->
+          <div class="lib-choose" id="libUpChoose">
+            <button type="button" class="lib-choose__opt" data-upmode="client"><strong>고객사 리소스 올리기</strong><span>고객사 폴더를 고르거나 새로 만들고, 그 고객사의 제품·인물·배경·에셋·참고 문서를 올리고 페르소나를 정합니다</span></button>
+            <button type="button" class="lib-choose__opt" data-upmode="general"><strong>일반 리소스 올리기</strong><span>특정 고객사와 상관없이 여러 작업에 같이 쓰는 인물·배경·소품을 올립니다</span></button>
+            <button class="btn btn--ghost btn--sm lib-choose__x" id="libUpClose0" type="button">닫기</button>
+          </div>
+          <div class="lib-up__body" id="libUpBody" hidden>
+          <div class="lib-up__where"><span id="libUpWhere"></span><button type="button" class="lib-up__back" id="libUpBack">← 다시 고르기</button></div>
+          <div class="lib-up__client" id="libUpClientRow" hidden>
+            <label class="field"><span>고객사 폴더</span><select id="libUpClient"></select></label>
+            <span class="muted small">또는</span>
+            <label class="field"><span>새 고객사</span><input id="libUpNewClient" placeholder="예: 코웨이 햇살대리점"></label>
+            <button class="btn btn--sm" id="libUpMakeClient" type="button">폴더 만들기</button>
+          </div>
+          <div class="lib-up__row">
+            <label class="field" id="libUpKindF"><span>종류</span><select id="libUpKind"></select></label>
+            <label class="check" id="libUpOneF"><input id="libUpOne" type="checkbox"> 여러 장을 리소스 하나로 묶기 <span class="muted small">(같은 제품의 여러 각도 등)</span></label>
+            <label class="field" id="libUpNameF" hidden><span>이름</span><input id="libUpName" placeholder="예: 정수기 A"></label>
+          </div>
+          <div class="lib-upref" id="libUpRef" hidden>
+            <div class="field"><span>붙일 태그 (여러 개)</span><div class="seg seg--sm" id="libUpTags"></div></div>
+            <div class="ra-row"><input id="libUrl" class="ra-grow" placeholder="이미지 주소 또는 페이지 링크 (핀터레스트·비핸스 등 — 대표 이미지를 받습니다)" aria-label="레퍼런스 링크"><button class="btn btn--sm" id="libUrlGo" type="button">링크로 넣기</button></div>
+          </div>
+          <!-- 문서 종류(고객사 에셋·참고 문서 — 페르소나는 위자드)일 때만 — 적은 내용을 <제목>.md 로 저장 (public/library.js writeDoc) -->
+          <div class="lib-write" id="libWrite" hidden>
+            <!-- 페르소나: 질문을 한 단계씩 묻는 모달 위자드 (#libWiz) 로 만든다 -->
+            <div class="lib-write__wiz" id="libWizStart" hidden>
+              <div><strong>고객사 페르소나 정하기</strong><span class="muted small">사업체 소개 → 소구점 → 차별점 → 혜택 → 말투 → 금지어까지 한 단계씩. 모르는 건 건너뛰고, 끝나면 md 문서로 저장됩니다</span></div>
+              <button class="btn btn--primary btn--sm" id="libWizGo" type="button">페르소나 만들기</button>
+            </div>
+            <div class="lib-write__free" id="libWriteFree">
+              <label class="field"><span>제목</span><input id="libWTitle" placeholder="예: 코웨이 본사 광고 가이드"></label>
+              <label class="field"><span>내용 (마크다운)</span><textarea id="libWBody" rows="8"></textarea></label>
+              <div class="lib-write__foot"><span class="muted small">바로 써서 저장하거나, 아래에 md·txt·pdf·이미지 파일을 올립니다</span><button class="btn btn--sm" id="libWGo" type="button">문서로 저장</button></div>
+            </div>
+          </div>
+          <!-- 브랜드 컬러: 파일 대신 색 코드·이름·쓰임을 적는다 (public/library.js colorEditor) -->
+          <div class="lib-write lib-colornew" id="libColorNew" hidden>
+            <label class="field"><span>이름</span><input id="libCName" placeholder="예: 장팀장렌탈 브랜드 컬러"></label>
+            <div class="field"><span>색 <span class="muted small">주색·보조색·강조색 순으로 — 광고를 만들 때 이 색으로 맞춥니다</span></span><div class="lib-colors" data-colors></div>
+            <button type="button" class="btn btn--ghost btn--sm" data-cadd>＋ 색 더하기</button></div>
+            <div class="lib-write__foot"><span class="muted small">색 코드는 #0057FF 처럼 적거나 왼쪽 색 칸에서 고릅니다</span><button class="btn btn--sm" id="libCGo" type="button">컬러 저장</button></div>
+          </div>
+          <label class="drop lib-drop" id="libDrop">
+            <input id="libFiles" type="file" multiple accept="image/*,video/*,audio/*,.md,.txt,.pdf">
+            <strong>파일을 끌어다 놓거나 눌러서 고르기</strong>
+            <span class="muted small">여러 장 가능 · 한 장 = 리소스 하나 (묶기를 켜면 전부 하나) · 이름은 파일 이름으로 붙습니다</span>
+          </label>
+          <div class="lib-up__foot">
+            <label class="btn btn--ghost btn--sm lib-dirbtn">폴더 통째로 올리기<input id="libDir" type="file" webkitdirectory multiple hidden></label>
+            <span class="muted small" id="libUpMsg"></span>
+            <button class="btn btn--ghost btn--sm" id="libUpClose" type="button">닫기</button>
+          </div>
+          </div>
+        </section>
+        <div class="lib-grid" id="libGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 문서 위자드 (public/library.js WIZ) — 단계마다 글·첨부, 이전 · 건너뛰기 · 다음, 마지막에 md 미리보기 후 저장 -->
+  <dialog id="libWiz" class="detail lib-wiz">
+    <div class="detail__bar"><strong id="libWzTitle"></strong><div class="row"><span class="muted small" id="libWzCount"></span><button class="btn btn--ghost btn--sm" id="libWzClose" type="button">닫기</button></div></div>
+    <div class="lib-wiz__prog" aria-hidden="true"><i id="libWzBar"></i></div>
+    <div class="lib-wiz__body" id="libWzBody"></div>
+    <div class="lib-wiz__foot">
+      <button class="btn btn--ghost btn--sm" id="libWzPrev" type="button">← 이전</button>
+      <span class="lib-wiz__sp"></span>
+      <button class="btn btn--ghost btn--sm" id="libWzSkip" type="button">건너뛰기</button>
+      <button class="btn btn--primary btn--sm" id="libWzNext" type="button">다음 →</button>
+    </div>
+  </dialog>
+
+  <dialog id="libDialog" class="detail lib-dlg">
+    <div class="detail__bar"><strong id="libDTitle"></strong><div class="row"><button class="btn btn--ghost btn--sm" id="libDDel" type="button">리소스 지우기</button><button class="btn btn--ghost btn--sm" id="libDClose" type="button" autofocus>닫기</button></div></div>
+    <div class="lib-dlg__body" id="libDBody"></div>
+  </dialog>
+
+  <!-- 이미지 광고 자동화 (public/autoflow.js · 서버 lib/autoflow.js · /api/autoflows) — 경쟁사 · 고객사 · 비율 · 화질 · 일정을 정해 두면
+       정해진 시간에 경쟁사 이미지 광고를 모으고 한 장마다 고객사 소재로 1:1 변형 광고를 만든다 -->
+  <section id="autoView" class="page af" hidden>
+    <div class="page__head">
+      <div>
+        <h2>이미지 광고 자동화</h2>
+        <p class="muted">경쟁사 · 고객사 · 이미지 비율 · 화질 · 일정을 정해 두면, 그 시간에 <strong>경쟁사의 새 이미지 광고를 모으고 한 장마다 고객사의 리소스·페르소나로 1:1 변형 광고</strong>를 만듭니다. 만든 광고는 <a href="#vary">이미지 변형</a>에도 쌓입니다.</p>
+      </div>
+      <button class="btn btn--primary" id="afNew" type="button">＋ 자동화 만들기</button>
+    </div>
+    <ol class="af-flow" aria-label="자동화 흐름">
+      <li><strong>① 수집</strong><span>경쟁사 새 이미지 광고</span></li>
+      <li><strong>② 분석 · 기획안</strong><span>광고마다 다른 각도 · 쓸 리소스 · 카피</span></li>
+      <li><strong>③ 승인</strong><span>기획 승인에서 고치고 승인 (끄면 바로)</span></li>
+      <li><strong>④ 생성</strong><span>힉스필드 · 정한 비율·화질</span></li>
+    </ol>
+    <div class="seg af-tabs" id="afTabs" role="tablist"><button type="button" class="seg__btn is-on" data-tab="list" role="tab">자동화</button><button type="button" class="seg__btn" data-tab="plans" role="tab">기획 승인 <span class="af-tabs__n" id="afPlanN"></span></button></div>
+    <p class="af-warn small">일정은 <strong>이 앱이 켜져 있을 때만</strong> 돕니다 (시간이 지나서 켜면 그날 한 번 돕니다). 한 번에 만드는 장수 상한까지 힉스필드 크레딧이 듭니다.</p>
+    <div id="afList" class="af-list"></div>
+    <div id="afEdit" class="af-edit" hidden></div>
+    <!-- 기획 승인 — 기획안 고치기 · 승인하고 만들기 · 다시 기획 · 버리기 (public/autoflow.js renderPlans) -->
+    <div id="afPlans" class="ap" hidden>
+      <div class="ap-bar"><div class="seg seg--sm" id="apFilter"></div><span class="ap-bar__sp"></span><button class="btn btn--sm" type="button" id="apAll">대기 중 전부 승인</button></div>
+      <div id="apList" class="ap-list"></div>
+    </div>
+    <!-- 원본 ↔ 결과 크게 비교 (public/autoflow.js openCmp) -->
+    <dialog id="afPick" class="detail af-pickdlg"><div class="detail__bar"><strong data-t></strong><button class="btn btn--ghost btn--sm" type="button" data-close>닫기</button></div><div class="af-pickdlg__body" data-body></div></dialog>
+    <dialog id="afCmp" class="detail af-cmpdlg"><div class="detail__bar"><strong data-t></strong><button class="btn btn--ghost btn--sm" type="button" data-close>닫기</button></div><div class="af-cmpdlg__body" data-body></div></dialog>
+  </section>
+
+  <!-- 이미지 변형 — 광고 수집에서 프롬프트를 만든 이미지 광고를 에셋으로 모아, 제품·인물·배경·글자를 바꾼 변형을 만든다
+       (public/vary.js · 서버 /api/vary/assets · 변형 편집은 광고 상세 창의 [변형] 칸을 그대로 쓴다) -->
+  <section id="varyView" class="page va" hidden>
+    <div class="page__head">
+      <div>
+        <h2>이미지 변형</h2>
+        <p class="muted">광고 수집에서 이미지 광고를 열고 [이미지 변형 에셋으로 저장]을 누르면 여기 에셋으로 올라옵니다. 하나를 골라 제품·인물·배경·글자를 바꾼 변형 프롬프트를 만들고 힉스필드로 뽑습니다.</p>
+      </div>
+      <a class="btn btn--ghost" href="#collect">광고 수집에서 더 가져오기</a>
+    </div>
+    <div id="vaList">
+    <div class="va-bar">
+      <select id="vaBrand" aria-label="브랜드"><option value="">모든 브랜드</option></select>
+      <div class="seg seg--sm" id="vaState">
+        <button class="seg__btn is-on" type="button" data-st="">전체 <span data-n=""></span></button>
+        <button class="seg__btn" type="button" data-st="new">아직 변형 안 함 <span data-n="new"></span></button>
+        <button class="seg__btn" type="button" data-st="made">변형 있음 <span data-n="made"></span></button>
+      </div>
+      <input id="vaQ" type="search" placeholder="광고 문구 찾기" aria-label="광고 문구 찾기">
+    </div>
+    <div class="va-grid" id="vaGrid"></div>
+    <div class="va-how" id="vaHow" hidden>
+      <h3>에셋이 아직 없어요</h3>
+      <ol>
+        <li><a href="#collect">광고 수집</a>에서 이미지 광고를 엽니다</li>
+        <li>위쪽 <strong>이미지 변형 에셋으로 저장</strong>을 누릅니다</li>
+        <li>프롬프트 분석이 없으면 먼저 분석(1~3분)한 뒤, 그 이미지가 여기 에셋으로 올라옵니다</li>
+      </ol>
+    </div>
+    </div>
+    <div id="vaDetail" class="vd" hidden></div>
+  </section>
+
+  <!-- 제작 기록 — 끝난 작업을 시간순으로 (public/history.js · lib/history.js) -->
+  <section id="historyView" class="page hi" hidden>
+    <div class="page__head">
+      <div>
+        <h2>제작 기록</h2>
+        <p class="muted">수집 · 이미지 변형 · 영상 복제 · 릴스 제작 · 힉스필드 생성이 끝날 때마다 한 줄씩 쌓입니다. 누르면 그 작업으로 갑니다.</p>
+      </div>
+    </div>
+    <div class="hi-bar">
+      <div class="seg seg--sm" id="hiMenu">
+        <button class="seg__btn is-on" type="button" data-menu="">전체</button>
+        <button class="seg__btn" type="button" data-menu="collect">광고 수집</button>
+        <button class="seg__btn" type="button" data-menu="clone">영상 복제</button>
+        <button class="seg__btn" type="button" data-menu="drama">릴스 제작하기</button>
+        <button class="seg__btn" type="button" data-menu="hf">힉스필드 생성</button>
+      </div>
+      <label class="check"><input id="hiErr" type="checkbox"> 실패만</label>
+      <input id="hiQ" type="search" placeholder="작업 이름 찾기" aria-label="작업 이름 찾기">
+    </div>
+    <div class="hi-sum" id="hiSum"></div>
+    <div id="hiList" class="hi-list"></div>
+  </section>
+
+  <!-- 처음 설정 — 프로그램 · Claude 구독 · 힉스필드 · 저장 폴더 (public/setup.js · lib/setup.js) -->
+  <section id="setupView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>처음 설정</h2>
+        <p class="muted">이 PC 에서 쓰려면 아래 네 가지가 준비돼야 합니다. 위에서부터 차례로 확인하세요. 설정은 이 PC 사용자에게만 저장됩니다.</p>
+      </div>
+      <button class="btn btn--ghost btn--sm" id="suReload" type="button">다시 점검</button>
+    </div>
+    <div class="su" id="suBody"><p class="muted">점검하는 중…</p></div>
+  </section>
+
+  <section id="cloneView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>영상 복제하기</h2>
+        <p class="muted">영상의 움직임·카메라·타이밍은 그대로 두고, 바꾸고 싶은 소재만 내 이미지로 바꾸는 프롬프트를 만듭니다 (힉스필드 Genjutsu). 광고 수집과 따로 저장됩니다.</p>
+      </div>
+    </div>
+    <div id="clHome">
+      <div class="ra-card">
+        <div class="ra-card__t">복제할 영상</div>
+        <div class="ra-row"><input id="clUrl" class="ra-grow" placeholder="영상 링크 — 유튜브·틱톡·인스타 릴스·mp4 주소"><button class="btn btn--primary" id="clGoUrl" type="button">링크 분석</button></div>
+        <label class="gj-drop" id="clDrop"><input type="file" id="clFile" accept="video/*,.mp4,.mov,.m4v,.webm" hidden>
+          <strong>mp4 파일을 끌어다 놓거나 눌러서 고르기</strong><span class="small muted">mp4 · mov · webm</span></label>
+        <div class="ra-row small"><label class="check"><input type="checkbox" id="clWhisper" checked> 음성 인식</label><label class="check"><input type="checkbox" id="clOcr" checked> 화면 글자 인식</label>
+          <span class="muted">분석 뒤 Claude 가 프레임을 보고 바꿀 수 있는 것을 찾습니다 (몇 분 걸립니다)</span></div>
+      </div>
+      <p class="ex__status" id="clStatus" role="status" hidden></p>
+      <h3 class="gj-h">복제한 영상 <span class="muted" id="clCount"></span></h3>
+      <div class="cl-grid" id="clGrid"></div>
+    </div>
+    <div id="clDetail" hidden></div>
+    <dialog id="clResDialog" class="detail po-pick">
+      <div class="detail__bar"><strong>리소스에서 고르기</strong>
+        <div class="row"><div class="seg" id="clResKinds"></div><a class="btn btn--ghost btn--sm" href="#res" target="_blank" rel="noopener">리소스 관리 ↗</a><button class="btn btn--sm" id="clResClose" type="button">닫기</button></div></div>
+      <div id="clResGrid" class="po-pick__grid"></div>
+    </dialog>
+  </section>
+
+  <!-- 인물 라디오 (public/radio.js) -->
+  <section id="radioView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>인물 라디오 만들기</h2>
+        <p class="muted">AI 진행자(1~2명)가 라디오 스튜디오에서 말하는 세로 쇼츠를 만듭니다. 기획 → 대본 → 출연 → 목소리 → 장면 → 완성.</p>
+      </div>
+    </div>
+    <nav class="subtabs ex-tabs" id="raTabs" role="tablist" aria-label="인물 라디오 화면">
+      <a class="subtabs__item" data-v="make" href="#radio" role="tab">만들기</a>
+      <a class="subtabs__item" data-v="list" href="#radio/list" role="tab">만든 것 <span class="muted" id="raCount"></span></a>
+    </nav>
+    <div id="raListView" hidden><div class="cl-grid" id="raGrid"></div></div>
+    <div id="raMakeView">
+      <div class="ra-top"><span class="small muted">작업</span><select id="raPick" aria-label="인물 라디오 고르기"></select></div>
+      <ol class="st-steps" id="raSteps"></ol>
+      <p class="ex__status" id="raStatus" role="status" hidden></p>
+      <div id="raPanel"></div>
+    </div>
+    <dialog id="raResDialog" class="detail po-pick">
+      <div class="detail__bar"><strong id="raResTitle">리소스에서 불러오기</strong>
+        <div class="row"><div class="seg" id="raResKinds"></div><a class="btn btn--ghost btn--sm" href="#res" target="_blank" rel="noopener">리소스 관리 ↗</a><button class="btn btn--sm" id="raResClose" type="button">닫기</button></div></div>
+      <div id="raResGrid" class="po-pick__grid"></div>
+    </dialog>
+  </section>
+
+  <!-- 포스터 이미지 만들기 (public/poster.js) -->
+  <section id="posterView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>포스터 이미지 만들기</h2>
+        <p class="muted">내용 → 참고 이미지(수집한 광고·링크/업로드에서 불러오기) → Claude 카피·글자 없는 배경 프롬프트 → 배경(힉스필드·올리기·수집 이미지) → 글자 배치 → PNG.</p>
+      </div>
+    </div>
+    <nav class="subtabs ex-tabs" id="poTabs" role="tablist" aria-label="포스터 화면">
+      <a class="subtabs__item" data-v="make" href="#poster" role="tab">만들기</a>
+      <a class="subtabs__item" data-v="list" href="#poster/list" role="tab">만든 포스터 <span class="muted" id="poCount"></span></a>
+      <a class="subtabs__item" data-v="log" href="#poster/log" role="tab">기록 <span class="muted" id="poLogCount"></span></a>
+    </nav>
+    <div id="poListView" hidden><div class="cl-grid" id="poGrid"></div></div>
+    <div id="poLogView" hidden>
+      <div class="ex__row po__logbar"><select id="poLogPoster" aria-label="포스터"></select><select id="poLogType" aria-label="종류"></select>
+        <label class="check small"><input type="checkbox" id="poLogAll"> 자세한 활동도 보기</label><span class="muted small" id="poLogInfo"></span></div>
+      <p class="muted small" style="margin:4px 0 0">💾 저장과 ✦ 최종 프롬프트 기록을 누르면 그때의 포스터 화면이 그대로 열립니다.</p>
+      <ol id="poLogList" class="po__log"></ol>
+    </div>
+    <div id="poViewBar" class="po__viewbar" hidden></div>
+    <div id="poMakeView" class="po">
+      <div class="po__stage" id="poStage">
+        <div class="po__compare">
+          <figure id="poCompare" hidden><img id="poTplImg" alt="템플릿 원본"><figcaption>템플릿 원본</figcaption></figure>
+          <figure><canvas id="poCanvas" class="po__canvas" aria-label="포스터 미리보기 — 글자를 끌어서 옮깁니다"></canvas><figcaption>내 포스터</figcaption></figure>
+        </div>
+        <p class="muted small" style="margin:0">글자를 끌어서 옮기고, 오른쪽 "글자" 칸에서 크기·색을 고칩니다.</p>
+        <div class="ex__row"><button class="btn btn--primary" id="poSave" type="button">💾 저장</button><button class="btn" id="poPng" type="button">PNG 만들기</button><span id="poSaved" class="muted small"></span><span id="poStatus" class="muted small"></span></div>
+        <div id="poOuts" class="po__outs"></div>
+      </div>
+      <div class="po__side">
+        <div class="ex__row po__pickrow"><strong class="small">포스터</strong><select id="poPick" aria-label="포스터 고르기"></select><button class="btn btn--sm" id="poNew" type="button">＋ 새 포스터</button></div>
+        <section class="panel po__sec">
+          <div class="ex__row"><h3 style="margin:0;flex:1">템플릿 · 이미지 만들기</h3><button class="btn btn--sm" id="poTplOpen" type="button">템플릿 불러오기</button><button class="btn btn--sm btn--ghost" id="poTplSave" type="button">이 포스터를 템플릿으로 저장</button></div>
+          <div id="poTplNow" class="small muted"></div>
+          <div id="poEditBox" class="po__edit" hidden>
+            <div class="ex__row"><strong class="small" style="flex:1">바꿀 수 있는 소재 <span class="muted">— 누르면 아래 칸에 이름이 들어갑니다</span></strong><button class="btn btn--ghost btn--sm" id="poReAnalyze" type="button">템플릿에서 다시 뽑기</button></div>
+            <div id="poEls" class="po__els"></div>
+            <div class="ex__row"><strong class="small" style="flex:1">내 이미지 <span class="muted">— 이름을 붙이면 아래 칸에서 「이름」으로 부릅니다</span></strong>
+              <label class="btn btn--sm btn--primary">＋ 이미지 추가하기<input type="file" id="poAssetUp" accept="image/*" multiple hidden></label>
+              <button class="btn btn--sm" type="button" data-popick="asset">📥 수집한 이미지에서</button></div>
+            <div id="poAssets" class="po__assets"></div>
+            <label class="field"><span>어떻게 바꿀까요? (자연어로 자유롭게)</span>
+              <textarea id="poNl" class="po__nl" rows="6" placeholder="예) 「큰 제목」은 '입금되었습니다', 그 아래 '30만원'을 아주 크게 강조색으로.&#10;'30만원 받고 정수기 바꾸기' 버튼을 아래쪽에 넣어 줘.&#10;배경 컬러는 라이트블루로 바꾸고 글자는 진한 남색으로.&#10;인물 사진 칸은 빼 줘."></textarea></label>
+            <div class="ex__row"><button class="btn btn--primary" id="poFinalGo" type="button">✦ 최종 이미지 프롬프트 만들기</button><button class="btn" id="poNlGo" type="button">캔버스 배치만 고치기</button><button class="btn btn--ghost" id="poUndo" type="button">되돌리기</button>
+              <label class="ex-field" style="flex:0 0 auto"><span>배경색</span><input type="color" id="poBgColor"></label></div>
+            <div id="poNlNote"></div>
+            <div id="poFinal" class="po__final"></div>
+          </div>
+        </section>
+        <details class="panel po__sec po__fold">
+          <summary><h3>1. 내용</h3></summary>
+          <div class="po__grid">
+            <label class="field"><span>무엇을</span><input data-pi="purpose" placeholder="예: 신제품 출시 · 팝업스토어 · 세일 · 모집"></label>
+            <label class="field"><span>제품·행사 이름</span><input data-pi="product" placeholder="예: 코웨이 제로 음식물처리기 2L"></label>
+            <label class="field po__wide"><span>꼭 들어갈 말</span><input data-pi="message" placeholder="예: 가로 18.9cm 최소 사이즈 (확인된 사실만)"></label>
+            <label class="field po__wide"><span>일시·장소·가격 등 정보 (줄바꿈)</span><textarea data-pi="info" rows="2" placeholder="예: 11.1 ~ 11.7&#10;성수동 ○○홀"></textarea></label>
+            <label class="field"><span>누구에게</span><input data-pi="target" placeholder="예: 1~2인 가구"></label>
+            <label class="field"><span>행동 유도</span><input data-pi="cta" placeholder="예: 지금 예약하기"></label>
+            <label class="field"><span>크기</span><select id="poSize"></select></label>
+            <label class="field"><span>스타일</span><select id="poStyle"></select></label>
+            <label class="field po__wide"><span>브랜드 에셋 (선택)</span><select data-pi="kitId" id="poKit"></select></label>
+          </div>
+        </details>
+        <details class="panel po__sec po__fold">
+          <summary><h3>2. 참고 이미지 <span class="muted small">— 색감·배치·분위기만 참고</span></h3></summary>
+          <div id="poRefs" class="po__thumbs"></div>
+          <div class="ex__row"><button class="btn btn--sm" type="button" id="poRefLib">레퍼런스에서</button><button class="btn btn--sm" type="button" data-popick="ref">📥 수집한 이미지에서</button><label class="btn btn--sm">내 PC 에서<input type="file" id="poRefUp" accept="image/*" hidden></label></div>
+        </details>
+        <details class="panel po__sec po__fold">
+          <summary><h3>3. 카피·배경 프롬프트</h3></summary>
+          <div class="ex__row"><button class="btn btn--primary" id="poCopy" type="button">Claude 로 카피 쓰기</button><span class="muted small">1분 안팎 · 다시 쓰면 글자 배치가 처음으로 돌아갑니다</span></div>
+          <div id="poCopyOut"></div>
+        </details>
+        <details class="panel po__sec po__fold">
+          <summary><h3>4. 배경</h3></summary>
+          <div id="poBgs" class="po__thumbs"></div>
+          <div class="ex__row"><button class="btn btn--sm" type="button" data-popick="bg">📥 수집한 이미지를 배경으로</button><label class="btn btn--sm">내 PC 에서<input type="file" id="poBgUp" accept="image/*" hidden></label><span id="poHf"></span></div>
+          <label class="ex-field ex-field--range"><span>글자 쪽 어둡게</span><input type="range" id="poOverlay" min="0" max="0.85" step="0.05" value="0.35"></label>
+        </details>
+        <details class="panel po__sec po__fold">
+          <summary><h3>5. 글자</h3></summary>
+          <div id="poLayers" class="po__layers"></div>
+          <div id="poLayerEdit"></div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <dialog id="poTplDialog" class="detail po-pick">
+    <div class="detail__bar"><strong>포스터 템플릿 불러오기</strong>
+      <div class="row"><select id="poTplSrc" aria-label="종류"><option value="">전체</option><option>포스터 템플릿</option><option>카드뉴스 템플릿</option></select>
+        <button class="btn btn--sm" id="poTplClose" type="button">닫기</button></div></div>
+    <p class="muted small" style="margin:0;padding:0 var(--s4)">이미 쓴 글은 그대로 두고 크기·색·글자 배치만 바꿉니다. 카드뉴스 템플릿은 표지 장의 디자인(색·정렬·글 구조)을 가져오고, 다음 카피도 그 구조로 씁니다.</p>
+    <div id="poTplGrid" class="po-pick__grid"></div>
+  </dialog>
+  <dialog id="poPickDialog" class="detail po-pick">
+    <div class="detail__bar"><strong id="poPickTitle">수집한 이미지</strong>
+      <div class="row"><select id="poPickBrand" aria-label="광고주"></select><select id="poPickKind" aria-label="종류"><option value="">전체</option><option value="이미지">이미지 광고</option><option value="영상 썸네일">영상 썸네일</option></select>
+        <button class="btn btn--sm" id="poPickClose" type="button">닫기</button></div></div>
+    <div id="poPickGrid" class="po-pick__grid"></div>
+  </dialog>
+
+  <!-- 라디오 팟캐스트 릴스 (public/podcast.js) -->
+  <section id="podcastView" class="page" hidden>
+    <div class="page__head">
+      <div>
+        <h2>팟캐스트 릴스 만들기</h2>
+        <p class="muted">주제 → 낭독 대본(Claude, 1명 낭독 또는 2명 대화) → 음성(임시 음성 또는 녹음 파일) → 읽는 만큼 글이 부드럽게 짙어지는 매직 텍스트 → mp4. 화풍은 템플릿(전자책 · 라디오 스튜디오)으로 고르고 색·글꼴·크기를 바꿉니다.</p>
+      </div>
+    </div>
+    <nav class="subtabs ex-tabs" id="pcTabs" role="tablist" aria-label="팟캐스트 릴스 화면">
+      <a class="subtabs__item" data-v="make" href="#podcast" role="tab">만들기</a>
+      <a class="subtabs__item" data-v="list" href="#podcast/list" role="tab">만든 콘텐츠 <span class="muted" id="pcCount"></span></a>
+    </nav>
+    <div id="pcListView" hidden>
+      <div class="cl-tools"><input id="pcSearch" type="search" placeholder="제목·주제로 찾기" aria-label="만든 콘텐츠 찾기"></div>
+      <div class="cl-grid" id="pcGrid"></div>
+    </div>
+    <div class="ex" id="pcMakeView">
+      <div class="ex__side">
+        <section class="panel stack">
+          <h3>새로 만들기</h3>
+          <form id="pcNew" class="ex__row">
+            <input id="pcTopic" placeholder="주제 (예: 한국은 왜 우측통행이 됐을까)" aria-label="주제" required>
+            <input id="pcNewShow" value="궁금증 라디오" aria-label="프로그램 이름" style="flex:0 1 140px">
+            <select id="pcTpl" aria-label="템플릿"></select>
+            <select id="pcNewCast" aria-label="읽는 사람"><option value="1" selected>1명 낭독</option><option value="2">2명 대화</option></select>
+            <select id="pcSec" aria-label="길이"><option value="30">30초</option><option value="45">45초</option><option value="60" selected>60초</option><option value="90">90초</option></select>
+            <button class="btn btn--primary" type="submit">대본 쓰기</button>
+          </form>
+          <div class="ex__row">
+            <select id="pcPick" aria-label="만든 릴스"></select>
+            <button class="btn btn--ghost btn--sm" type="button" id="pcDel">지우기</button>
+          </div>
+          <p class="ex__status" id="pcStatus" role="status" hidden></p>
+        </section>
+        <div id="pcEditor" class="ex__side" hidden>
+          <section class="panel stack">
+            <h3>프로그램 · 낭독자</h3>
+            <div class="ex__row">
+              <label class="field" style="flex:1"><span>프로그램 이름</span><input id="pcShow"></label>
+              <label class="field" style="flex:0 1 110px"><span>회차</span><input id="pcEpisode"></label>
+              <label class="field" style="flex:0 1 120px"><span>읽는 사람</span><select id="pcCast"><option value="1">1명 낭독</option><option value="2">2명 대화</option></select></label>
+            </div>
+            <div id="pcHosts" class="stack"></div>
+            <p class="muted small">색은 진행 막대·파형·형광펜에 쓰입니다. 목소리는 목소리 설정에서 만든 목소리(저장·복제·기본) 또는 맥 임시 음성(say)에서 고릅니다.</p>
+          </section>
+          <section class="panel stack">
+            <h3>템플릿 · 스타일</h3>
+            <select id="pcTplCur" aria-label="이 릴스의 템플릿"></select>
+            <div class="ex-fields" id="pcStyle"></div>
+            <div class="ex__row">
+              <button class="btn btn--ghost btn--sm" type="button" id="pcStyleReset">기본값으로</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="pcStyleSave">내 템플릿으로 저장</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="pcStyleDel">내 템플릿 지우기</button>
+            </div>
+            <p class="muted small">"내 템플릿으로 저장"은 지금 스타일을 이름 붙여 저장합니다. 새로 만들 때 템플릿 칸에서 고릅니다.</p>
+          </section>
+          <section class="panel stack">
+            <div class="ex__row">
+              <h3 style="flex:1">대본</h3>
+              <button class="btn btn--ghost btn--sm" type="button" id="pcRescript">대본 다시 쓰기</button>
+            </div>
+            <label class="field"><span>에피소드 제목</span><input id="pcTitle"></label>
+            <ol class="ex-scenes" id="pcLines"></ol>
+            <button class="btn btn--ghost btn--sm" type="button" id="pcAdd">+ 대사 추가</button>
+          </section>
+          <section class="panel stack">
+            <h3>음성</h3>
+            <p class="muted small" id="pcAudioInfo"></p>
+            <div class="ex__row">
+              <button class="btn btn--ghost btn--sm" type="button" id="pcSay">진행자별 목소리로 음성 만들기</button>
+              <span class="muted small">또는</span>
+              <label class="btn btn--ghost btn--sm">녹음 파일 올리기<input type="file" id="pcAudioFile" accept="audio/*,video/*" hidden></label>
+            </div>
+            <p class="muted small">임시 음성은 대사마다 따로 읽어 이어 붙이므로 대사 경계가 정확합니다. 녹음 파일은 whisper 로 경계를 맞춥니다.</p>
+          </section>
+        </div>
+      </div>
+      <div class="ex__player" id="pcPlayer" hidden>
+        <canvas class="ex__canvas" id="pcCanvas"></canvas>
+        <audio id="pcAudio" preload="auto"></audio>
+        <div class="ex__controls">
+          <button class="btn btn--ghost btn--sm" type="button" id="pcPlay" aria-label="재생">▶</button>
+          <input type="range" id="pcSeek" min="0" max="1000" value="0" aria-label="재생 위치">
+          <span class="ex__time" id="pcTime">0:00 / 0:00</span>
+        </div>
+        <div class="ex__row">
+          <select id="pcQuality" aria-label="mp4 화질" style="flex:0 1 190px"><option value="small">용량 작게 · 720p</option><option value="std" selected>표준 · 720p</option><option value="high">고화질 · 1080p</option></select>
+          <button class="btn btn--primary" type="button" id="pcRender">mp4 로 굽기</button>
+          <span id="pcResult"></span>
+        </div>
+        <p class="muted small">굽기는 프레임을 한 장씩 그려 보내므로 이 탭이 뒤에 있어도 됩니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="/poster.js"></script>
+  <script type="module" src="/clone.js"></script>
+  <script type="module" src="/setup.js"></script>
+  <script type="module" src="/explore.js"></script>
+  <script type="module" src="/history.js"></script>
+  <script type="module" src="/vary.js"></script>
+  <script type="module" src="/autoflow.js"></script>
+  <script type="module" src="/library.js"></script>
+  <script type="module" src="/refpick.js"></script>
+  <script type="module" src="/cropper.js"></script>
+  <script src="/nav.js"></script>
+  <script type="module" src="/resources.js"></script>
+  <script type="module" src="/voiceyt.js"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

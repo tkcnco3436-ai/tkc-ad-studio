@@ -1,0 +1,17 @@
+{
+  "name": "ad-creative-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "광고 수집 · 이미지 소재 제작 · 영상 복제 · 드라마 릴스 — 각자 PC 에서 도는 로컬 도구",
+  "type": "module",
+  "scripts": {
+    "start": "node start.js",
+    "dev": "node --watch-path=server.js --watch-path=lib server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "tesseract.js": "7.0.0"
+  }
+}

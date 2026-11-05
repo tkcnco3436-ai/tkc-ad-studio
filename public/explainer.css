@@ -1,0 +1,54 @@
+/* 3D 설명 영상 (#explain) — 토큰은 style.css 것을 쓴다 */
+.ex { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: var(--s6); align-items: start; }
+@media (max-width: 960px) { .ex { grid-template-columns: 1fr; } }
+.ex__side { display: flex; flex-direction: column; gap: var(--s4); min-width: 0; }
+.ex__row { display: flex; gap: var(--s2); align-items: center; flex-wrap: wrap; }
+.ex__row > input, .ex__row > select { flex: 1 1 160px; min-width: 0; }
+.ex-scenes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.ex-scene { display: flex; flex-direction: column; gap: var(--s2); padding: var(--s3); border: 1px solid var(--divider-lite); border-radius: var(--r); background: var(--bg100); }
+.ex-scene__head { display: flex; gap: var(--s1); align-items: center; }
+.ex-scene__head strong { width: 24px; text-align: center; color: var(--primary); }
+.ex-scene__head select { flex: 1; min-width: 0; }
+.ex-scene__row { display: flex; gap: var(--s2); }
+.ex-scene__row input { flex: 1; min-width: 0; }
+.ex-scene__row select { flex: 0 0 80px; }
+.ex-scene textarea { width: 100%; resize: vertical; font: inherit; }
+.ex__player { position: sticky; top: var(--s4); display: flex; flex-direction: column; gap: var(--s3); }
+.ex__canvas { width: 100%; aspect-ratio: 9 / 16; border-radius: var(--r-card); background: #0b0d12; display: block; }
+.ex__controls { display: flex; gap: var(--s2); align-items: center; }
+.ex__controls input[type="range"] { flex: 1; }
+.ex__time { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--contents100); white-space: nowrap; }
+.ex__status { font-size: 13px; color: var(--primary); background: var(--bg200); border-radius: var(--r); padding: var(--s2) var(--s3); }
+.ex-fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2) var(--s3); }
+.ex-field { display: flex; align-items: center; gap: var(--s2); font-size: 13px; min-width: 0; }
+.ex-field > span { flex: 1; color: var(--contents100); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ex-field select { flex: 0 1 110px; min-width: 0; }
+.ex-field input[type="color"] { width: 40px; height: 28px; padding: 0; border: 1px solid var(--divider-lite); border-radius: var(--r); background: none; }
+.ex-field--range { grid-column: 1 / -1; }
+.ex-field--range input { flex: 1; }
+.ex-field output { width: 32px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; }
+.ex-char { display: flex; flex-direction: column; gap: var(--s3); }
+.ex-char__view { width: 100%; max-width: 280px; aspect-ratio: 1; align-self: center; border-radius: var(--r-card); background: #9fcdf5; }
+/* 만들기 · 만든 콘텐츠 탭 (3D 설명 영상 · 팟캐스트 릴스 공용) */
+.ex-tabs { padding: 0 0 var(--s4); background: none; border: 0; }
+.cl-tools { display: flex; gap: var(--s2); align-items: center; margin-bottom: var(--s4); }
+.cl-tools input { flex: 1; max-width: 360px; }
+.cl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--s4); }
+.cl-empty { grid-column: 1 / -1; padding: var(--s6) 0; }
+.cl-card { display: flex; flex-direction: column; border: 1px solid var(--divider-lite); border-radius: var(--r-card); background: var(--bg100); overflow: hidden; min-width: 0; }
+.cl-card__media { position: relative; display: block; aspect-ratio: 9 / 16; background: var(--bg200); overflow: hidden; }
+.cl-card__media img, .cl-card__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cl-card__media video { opacity: 0; transition: opacity .2s; }
+.cl-card__media video[data-on] { opacity: 1; }
+.cl-card__ph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 40px; }
+.cl-card__dur, .cl-card__state { position: absolute; bottom: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: rgba(0,0,0,.6); color: #fff; font-size: 12px; font-variant-numeric: tabular-nums; }
+.cl-card__dur { right: 8px; }
+.cl-card__state { left: 8px; }
+.cl-card__body { display: flex; flex-direction: column; gap: var(--s1); padding: var(--s3); min-width: 0; }
+.cl-card__title { font-size: 15px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cl-card__topic { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc-host input[type="color"] { flex: 0 0 44px; width: 44px; height: 36px; padding: 0; border: 1px solid var(--divider-lite); border-radius: var(--r); background: none; }
+
+/* 썸네일 (public/thumb.js) */
+.th__canvas { width: 100%; max-width: 360px; aspect-ratio: 9 / 16; align-self: center; border-radius: var(--r-card); background: #0b0d12; display: block; }
+.th textarea { width: 100%; resize: vertical; font: inherit; }

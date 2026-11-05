@@ -3,7 +3,17 @@
 경쟁사 광고 수집 · 이미지 변형 · 광고 자동화 · 영상 복제 · 릴스 제작을 **내 PC 에서** 돌리는 도구입니다.
 각자 자기 PC 에 설치하고, 자기 Claude 구독 계정과 자기 힉스필드 계정으로 씁니다.
 
-## 빠른 시작
+## Claude Code 로 설치하기 (추천)
+
+빈 폴더에서 Claude Code 에게:
+
+```
+https://github.com/tkcnco3436-ai/tkc-ad-studio 받아서 CLAUDE.md 대로 설치해줘
+```
+
+직접 해야 하는 단계(비밀번호 · ego lite 설치 · 힉스필드 연결 · 저장 폴더)는 Claude 가 멈추고 안내합니다.
+
+## 빠른 시작 (손으로)
 
 ```bash
 git clone https://github.com/tkcnco3436-ai/tkc-ad-studio.git
